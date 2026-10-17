@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --color-bg: #f4f6fb;
+  --color-card: #ffffff;
+  --color-text: #0f172a;
+  --color-muted: #64748b;
+  --color-border: #e5e9f2;
+  --color-navy: #0a1b4d;
+  --color-primary: #2563eb;
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-danger: #dc2626;
+
+  --font-inter: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --radius-card: 14px;
+  --radius-input: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0b1020;
+    --color-card: #141b30;
+    --color-text: #e8edf8;
+    --color-muted: #93a0ba;
+    --color-border: #25304d;
+    --color-navy: #060d26;
+  }
+}
+
+:root[data-theme="dark"],
+.dark {
+  --color-bg: #0b1020;
+  --color-card: #141b30;
+  --color-text: #e8edf8;
+  --color-muted: #93a0ba;
+  --color-border: #25304d;
+  --color-navy: #060d26;
+}
+
+@theme {
+  --color-bg: var(--color-bg);
+  --color-card: var(--color-card);
+  --color-text: var(--color-text);
+  --color-muted: var(--color-muted);
+  --color-border: var(--color-border);
+  --color-navy: var(--color-navy);
+  --color-primary: var(--color-primary);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-danger: var(--color-danger);
+
+  --font-sans: var(--font-inter);
+  --radius-card: 14px;
+  --radius-input: 10px;
+}
+
+html {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}

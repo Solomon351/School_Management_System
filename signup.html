@@ -12,7 +12,7 @@
 <body class="bg-bg text-text min-h-screen flex flex-col font-sans antialiased selection:bg-primary/20 selection:text-primary transition-colors">
 
   <!-- Mobile Brand Header (Visible only under 760px) -->
-  <header class="md:hidden bg-navy text-white px-5 py-4 flex items-center justify-between border-b border-white/10">
+  <header class="md:hidden bg-navy text-white px-5 py-4 flex items-center justify-between border-b border-white/10 anim-fade-up-8">
     <div class="flex items-center gap-2 font-extrabold text-xl tracking-tight">
       <span class="text-2xl" aria-hidden="true">🎓</span>
       <span>Educ<span class="text-[#22c55e]">anize</span></span>
@@ -26,13 +26,13 @@
   <main class="flex-1 flex flex-col md:flex-row w-full min-h-[calc(100vh-50px)]">
     
     <!-- Left Half: Navy Brand Panel (Desktop) -->
-    <section class="hidden md:flex md:w-5/12 lg:w-1/2 bg-navy text-white flex-col justify-between p-8 lg:p-14 relative overflow-hidden">
+    <section class="hidden md:flex md:w-5/12 lg:w-1/2 bg-navy text-white flex-col justify-between p-8 lg:p-14 relative overflow-hidden anim-slide-left">
       <!-- Background Ambient Glow -->
       <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-primary/20 blur-3xl pointer-events-none" aria-hidden="true"></div>
       <div class="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-emerald-500/15 blur-3xl pointer-events-none" aria-hidden="true"></div>
 
       <!-- Brand Logo -->
-      <div class="relative z-10">
+      <div class="relative z-10 anim-fade-up" style="--delay: 600ms;">
         <a href="index.html" class="inline-flex items-center gap-2.5 text-2xl lg:text-3xl font-extrabold tracking-tight group">
           <span class="text-3xl lg:text-4xl transition-transform group-hover:scale-105" aria-hidden="true">🎓</span>
           <span>Educ<span class="text-[#22c55e]">anize</span></span>
@@ -41,17 +41,19 @@
 
       <!-- Center Headline and Benefits -->
       <div class="relative z-10 max-w-lg my-12">
-        <h1 class="text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight text-white mb-4">
-          Your school life, <br>all in one place
-        </h1>
-        <p class="text-white/70 text-sm lg:text-base leading-relaxed mb-10">
-          The all-in-one portal designed for students, teachers, and guardians to stay seamlessly connected with academic progress.
-        </p>
+        <div class="anim-fade-up" style="--delay: 780ms;">
+          <h1 class="text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight text-white mb-4">
+            Your school life, <br>all in one place
+          </h1>
+          <p class="text-white/70 text-sm lg:text-base leading-relaxed mb-10">
+            The all-in-one portal designed for students, teachers, and guardians to stay seamlessly connected with academic progress.
+          </p>
+        </div>
 
         <!-- 3 Short Benefits -->
         <div class="space-y-5">
           <!-- Benefit 1 -->
-          <div class="flex items-start gap-4">
+          <div class="flex items-start gap-4 anim-fade-up" style="--delay: 960ms;">
             <div class="w-10 h-10 rounded-input bg-primary/20 border border-primary/30 flex items-center justify-center text-primary-300 text-lg flex-shrink-0" aria-hidden="true">
               📝
             </div>
@@ -64,7 +66,7 @@
           </div>
 
           <!-- Benefit 2 -->
-          <div class="flex items-start gap-4">
+          <div class="flex items-start gap-4 anim-fade-up" style="--delay: 1140ms;">
             <div class="w-10 h-10 rounded-input bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 text-lg flex-shrink-0" aria-hidden="true">
               💳
             </div>
@@ -77,7 +79,7 @@
           </div>
 
           <!-- Benefit 3 -->
-          <div class="flex items-start gap-4">
+          <div class="flex items-start gap-4 anim-fade-up" style="--delay: 1320ms;">
             <div class="w-10 h-10 rounded-input bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-300 text-lg flex-shrink-0" aria-hidden="true">
               ✅
             </div>
@@ -98,10 +100,10 @@
       <div class="w-full max-w-[540px]">
 
         <!-- Form Card -->
-        <div id="formCard" class="bg-card border border-border rounded-card p-6 sm:p-9 shadow-sm transition-colors">
+        <div id="formCard" class="bg-card border border-border rounded-card p-6 sm:p-9 shadow-sm transition-colors anim-card" style="--delay: 500ms;">
           
           <!-- Card Header -->
-          <div class="mb-6">
+          <div class="mb-6 anim-fade-up-8" style="--delay: 200ms;">
             <h2 class="text-2xl font-bold text-text tracking-tight mb-1.5">
               Create Account
             </h2>
@@ -124,7 +126,7 @@
             <!-- First Name & Last Name (Side by side on desktop, stacked on mobile) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <!-- First Name -->
-              <div>
+              <div class="anim-fade-up-8" style="--delay: 1000ms;">
                 <label for="firstName" class="block text-xs font-semibold text-text mb-1.5">
                   First name <span class="text-danger" aria-hidden="true">*</span>
                 </label>
@@ -141,7 +143,7 @@
               </div>
 
               <!-- Last Name -->
-              <div>
+              <div class="anim-fade-up-8" style="--delay: 1120ms;">
                 <label for="lastName" class="block text-xs font-semibold text-text mb-1.5">
                   Last name <span class="text-danger" aria-hidden="true">*</span>
                 </label>
@@ -159,7 +161,7 @@
             </div>
 
             <!-- Registration Number -->
-            <div>
+            <div class="anim-fade-up-8" style="--delay: 1240ms;">
               <label for="regNo" class="block text-xs font-semibold text-text mb-1.5">
                 Registration number <span class="text-danger" aria-hidden="true">*</span>
               </label>
@@ -175,7 +177,7 @@
             </div>
 
             <!-- Gender Select -->
-            <div>
+            <div class="anim-fade-up-8" style="--delay: 1360ms;">
               <label for="gender" class="block text-xs font-semibold text-text mb-1.5">
                 Gender <span class="text-danger" aria-hidden="true">*</span>
               </label>
@@ -201,7 +203,7 @@
             </div>
 
             <!-- Email Address -->
-            <div>
+            <div class="anim-fade-up-8" style="--delay: 1480ms;">
               <label for="email" class="block text-xs font-semibold text-text mb-1.5">
                 Email address <span class="text-danger" aria-hidden="true">*</span>
               </label>
@@ -218,7 +220,7 @@
             </div>
 
             <!-- Password -->
-            <div>
+            <div class="anim-fade-up-8" style="--delay: 1600ms;">
               <div class="flex items-center justify-between mb-1.5">
                 <label for="password" class="block text-xs font-semibold text-text">
                   Password <span class="text-danger" aria-hidden="true">*</span>
@@ -263,7 +265,7 @@
             </div>
 
             <!-- Confirm Password -->
-            <div>
+            <div class="anim-fade-up-8" style="--delay: 1720ms;">
               <label for="confirmPassword" class="block text-xs font-semibold text-text mb-1.5">
                 Confirm password <span class="text-danger" aria-hidden="true">*</span>
               </label>
@@ -296,11 +298,11 @@
             </div>
 
             <!-- Submit Button: Create Account -->
-            <div class="pt-2">
+            <div class="pt-2 anim-fade-up-8" style="--delay: 1800ms;">
               <button
                 id="submitBtn"
                 type="submit"
-                class="w-full bg-primary hover:bg-primary/90 text-white font-semibold text-sm py-3 px-4 rounded-input transition-all duration-150 flex items-center justify-center gap-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer"
+                class="btn-action w-full bg-primary hover:bg-primary/90 text-white font-semibold text-sm py-3 px-4 rounded-input transition-all duration-150 flex items-center justify-center gap-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer"
               >
                 <!-- Loading Spinner (Hidden by default) -->
                 <svg id="submitSpinner" class="hidden animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" aria-hidden="true">

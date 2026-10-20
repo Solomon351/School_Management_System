@@ -2,73 +2,177 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Log In – Educanize School Management</title>
-    <link rel="stylesheet" href="../css/output.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/output.css">
 </head>
 <body class="bg-bg text-text min-h-screen flex flex-col font-sans antialiased selection:bg-primary/20 selection:text-primary transition-colors">
 
     <!-- Mobile Brand Header (Visible only under 760px) -->
-    <header class="md:hidden lg:flex bg-navy text-white px-5 py-4 flex items-center justify-between border-b border-white/10 anim-fade-up-8">
-        <div class="flex items-center gap-2 font-extrabold text-xl tracking-tight">
+    <header class="md:hidden bg-navy text-white px-5 py-4 flex items-center justify-between border-b border-white/10 anim-fade-up-8">
+        <a href="../index.html" class="flex items-center gap-2 font-extrabold text-xl tracking-tight">
             <span class="text-2xl" aria-hidden="true">🎓</span>
-            <span>Educ<span class="text-[#22c55e]">anize</span></span>
-        </div>
-        <a href="#" class="text-xs font-semibold text-white/80 lg:hidden hover:text-white transition-colors bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-input">
-         Sign In
+            <span>Educ<span class="text-emerald-500">anize</span></span>
+        </a>
+        <a href="../signup.html" class="text-xs font-semibold text-white/80 hover:text-white transition-colors bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-input">
+            Sign Up
         </a>
     </header>
-    <!-- Main Content -->
-    <div class="w-full flex flex-col  items-center justify-center flex-1 px-4 sm:px-6 lg:px-8 ">
 
-        <div class="w-full max-w-md space-y-8 border border-white/10 bg-card rounded-card p-6 sm:p-9 shadow-sm transition-colors anim-card" style="--delay: 500ms;">
-            <div class="text-center">
-                <h2 class="mt-6 text-3xl font-extrabold text-text">Log in to your account</h2>
-                <p class="mt-2 text-sm text-text/70">Don't have an account? <a href="../signup.html" class="font-medium text-primary hover:text-primary/80">Sign up</a></p>
+    <!-- Main Split-Screen Container -->
+    <main class="flex-1 flex flex-col md:flex-row w-full min-h-[calc(100vh-50px)]">
+
+        <!-- Left Half: Navy Brand Panel (Desktop) -->
+        <section class="hidden md:flex md:w-5/12 lg:w-1/2 bg-navy text-white flex-col justify-between p-8 lg:p-14 relative overflow-hidden anim-slide-left">
+            <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-primary/20 blur-3xl pointer-events-none" aria-hidden="true"></div>
+            <div class="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-emerald-500/15 blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+            <div class="relative z-10 anim-fade-up" style="--delay: 600ms;">
+                <a href="../index.html" class="inline-flex items-center gap-2.5 text-2xl lg:text-3xl font-extrabold tracking-tight group">
+                    <span class="text-3xl lg:text-4xl transition-transform group-hover:scale-105" aria-hidden="true">🎓</span>
+                    <span>Educ<span class="text-emerald-500">anize</span></span>
+                </a>
             </div>
-            <form class="mt-8 space-y-6" action="#" method="POST">
-                <input type="hidden" name="remember" value="true">
-                <div class="-space-y-px rounded-md shadow-sm flex flex-col gap-6">
-                    <div>
-                        <label for="email-address" class="sr-only">Email address</label>
-                        <input id="email-address" name="email" type="email" autocomplete="email" required class="w-full px-3.5 py-2.5 rounded-input border border-border bg-bg text-text text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted/60"
-                         aria-required="true" placeholder="Email address">
-                    </div>
-                    <div>
-                        <label for="password" class="sr-only">Password</label>
-                        <input id="password" name="password" type="password" autocomplete="current-password" required class="w-full px-3.5 py-2.5 rounded-input border border-border bg-bg text-text text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted/60"
-                        aria-required="true" placeholder="Password">
-                    </div>
+
+            <div class="relative z-10 max-w-lg my-12">
+                <div class="anim-fade-up" style="--delay: 780ms;">
+                    <h1 class="text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight text-white mb-4">
+                        Welcome back
+                    </h1>
+                    <p class="text-white/70 text-sm lg:text-base leading-relaxed mb-10">
+                        The all-in-one portal designed for students, teachers, and guardians to stay seamlessly connected with academic progress.
+                    </p>
                 </div>
 
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-border text-primary focus:ring-primary">
-                        <label for="remember-me" class="ml-2 block text-sm text-text">Remember me</label>
+                <div class="space-y-5">
+                    <div class="flex items-start gap-4 anim-fade-up" style="--delay: 960ms;">
+                        <div class="w-10 h-10 rounded-input bg-primary/20 border border-primary/30 flex items-center justify-center text-primary-300 text-lg flex-shrink-0" aria-hidden="true">📝</div>
+                        <div>
+                            <h2 class="font-semibold text-white text-base">Check your results</h2>
+                            <p class="text-white/60 text-xs sm:text-sm mt-0.5">Instant access to end-of-term grades, exam breakdowns, and digital report sheets.</p>
+                        </div>
                     </div>
 
-                    <div class="text-lg">
-                        <a href="#" class="font-medium text-primary hover:text-primary/80">Forgot your password?</a>
+                    <div class="flex items-start gap-4 anim-fade-up" style="--delay: 1140ms;">
+                        <div class="w-10 h-10 rounded-input bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 text-lg flex-shrink-0" aria-hidden="true">💳</div>
+                        <div>
+                            <h2 class="font-semibold text-white text-base">Pay fees online</h2>
+                            <p class="text-white/60 text-xs sm:text-sm mt-0.5">Secure digital fee collection with automated e-receipts and payment history.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 anim-fade-up" style="--delay: 1320ms;">
+                        <div class="w-10 h-10 rounded-input bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-300 text-lg flex-shrink-0" aria-hidden="true">✅</div>
+                        <div>
+                            <h2 class="font-semibold text-white text-base">Track your attendance</h2>
+                            <p class="text-white/60 text-xs sm:text-sm mt-0.5">Stay updated with daily attendance registers, timetables, and class schedules.</p>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="flex items-center justify-center">
-                    <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent bg-primary py-2 px-6 text-lg font-medium text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ">
-                        Log In
-                    </button>
+        <!-- Right Half: Form Container on Page Background -->
+        <section class="flex-1 flex items-center justify-center p-4 sm:p-8 lg:p-12">
+            <div class="w-full max-w-[540px]">
+                <div id="formCard" class="bg-card border border-border rounded-card p-6 sm:p-9 shadow-sm transition-colors anim-card" style="--delay: 500ms;">
+                    <div class="mb-6 anim-fade-up-8" style="--delay: 200ms;">
+                        <h2 class="text-2xl font-bold text-text tracking-tight mb-1.5">Log in to your account</h2>
+                        <p class="text-muted text-xs sm:text-sm">Enter your ID or email and password to continue.</p>
+                    </div>
+
+                    <div id="formAlert" class="hidden" role="alert" aria-live="polite">
+                        <svg class="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <span id="formAlertText" class="flex-1 leading-normal font-medium"></span>
+                    </div>
+
+                    <form id="loginForm" class="space-y-4" action="#" method="POST" novalidate>
+                        <div class="anim-fade-up-8" style="--delay: 1000ms;">
+                            <label for="email-address" class="block text-xs font-semibold text-text mb-1.5">
+                                ID or email <span class="text-danger" aria-hidden="true">*</span>
+                            </label>
+                            <input
+                                id="email-address"
+                                name="email"
+                                type="text"
+                                autocomplete="username"
+                                placeholder="e.g. STU-0001, TCH-001 or you@email.com"
+                                class="w-full px-3.5 py-2.5 rounded-input border border-border bg-bg text-text text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted/60"
+                                aria-required="true"
+                            />
+                            <p id="email-address-error" class="hidden text-danger text-xs mt-1.5 font-medium" role="alert"></p>
+                        </div>
+
+                        <div class="anim-fade-up-8" style="--delay: 1120ms;">
+                            <label for="password" class="block text-xs font-semibold text-text mb-1.5">
+                                Password <span class="text-danger" aria-hidden="true">*</span>
+                            </label>
+                            <div class="relative">
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    autocomplete="current-password"
+                                    placeholder="Password"
+                                    class="w-full px-3.5 py-2.5 pr-11 rounded-input border border-border bg-bg text-text text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted/60"
+                                    aria-required="true"
+                                />
+                                <button
+                                    type="button"
+                                    id="togglePassword"
+                                    class="absolute inset-y-0 right-0 px-3.5 flex items-center text-muted hover:text-text focus:outline-none focus:text-primary transition-colors"
+                                    aria-label="Show password"
+                                >
+                                    <svg class="icon-eye w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                    <svg class="icon-eye-off hidden w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <p id="password-error" class="hidden text-danger text-xs mt-1.5 font-medium" role="alert"></p>
+                        </div>
+
+                        <div class="flex items-center justify-between gap-3 anim-fade-up-8" style="--delay: 1240ms;">
+                            <div class="flex items-center min-w-0">
+                                <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 flex-shrink-0 rounded border-border text-primary focus:ring-primary">
+                                <label for="remember-me" class="ml-2 block text-xs sm:text-sm text-text">Remember me</label>
+                            </div>
+                            <a href="../forgot-password.html" class="text-xs sm:text-sm font-medium text-primary hover:text-primary/80 whitespace-nowrap">Forgot password?</a>
+                        </div>
+
+                        <div class="pt-2 anim-fade-up-8" style="--delay: 1360ms;">
+                            <button
+                                id="submitBtn"
+                                type="submit"
+                                class="btn-action w-full bg-primary hover:bg-primary/90 text-white font-semibold text-sm py-3 px-4 rounded-input transition-all duration-150 flex items-center justify-center gap-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer"
+                            >
+                                Log In
+                            </button>
+                        </div>
+
+                        <p class="text-center text-xs sm:text-sm font-medium text-muted pt-2 anim-fade-up-8" style="--delay: 1480ms;">
+                            Don't have an account?
+                            <a href="../signup.html" class="font-semibold text-primary hover:underline transition-colors ml-1 focus:outline-none focus:ring-1 focus:ring-primary rounded">Sign up</a>
+                        </p>
+                    </form>
                 </div>
-            </form>
-        </div>
-    </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Shared Site Footer Container (Populated via js/footer.js) -->
     <div id="site-footer"></div>
 
     <!-- Shared Footer Script -->
     <script src="../js/footer.js"></script>
-    
+    <script src="../js/login.js"></script>
 </body>
 </html>

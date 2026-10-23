@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <!-- Tailwind CSS (Play CDN). Needs an internet connection when the file is opened. -->
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="stylesheet" href="../css/output.css">
   <script>
     tailwind.config = {
       theme: {
@@ -24,16 +24,7 @@
       }
     };
   </script>
-  <style>
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-    .anim-fade-up { animation: fadeUp .35s ease-out both; }
-    @media (prefers-reduced-motion: reduce) { .anim-fade-up { animation: none; } }
-    #printArea { display: none; }
-    @media print {
-      #root, #loginScreen, #logoutModal, #backdrop { display: none !important; }
-      #printArea { display: block !important; padding: 24px; color: #000; background: #fff; }
-    }
-  </style>
+  
 </head>
 <body class="bg-bg text-text font-sans antialiased selection:bg-primary/20 selection:text-primary">
 

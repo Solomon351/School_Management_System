@@ -7,6 +7,10 @@ const API_BASE = 'http://localhost:5000/api/v1';
   const message = document.getElementById('form-message');
   const submitButton = form.querySelector('button[type="submit"]');
   const endpoint = form.dataset.endpoint;
+  const createLoginAccountField = form.elements.createLoginAccount;
+  const passwordField = form.querySelector('#password');
+  const confirmPasswordField = form.querySelector('#confirmPassword');
+  const passwordFields = document.getElementById('password-fields');
   const optionalNames = new Set(
     Array.from(form.elements)
       .filter((field) => field.name && !field.required)
@@ -24,13 +28,25 @@ const API_BASE = 'http://localhost:5000/api/v1';
   }
 
   function fieldValue(field) {
+    if (!field || field.disabled) return '';
     if (field instanceof HTMLSelectElement && field.multiple) {
       return Array.from(field.selectedOptions, (option) => option.value);
     }
     return field.value.trim();
   }
 
+  function normalizePhoneNumber(value) {
+    return value.replace(/[\s-]/g, '');
+  }
+
+  function isValidNigerianPhone(value) {
+    const normalized = normalizePhoneNumber(value);
+    return /^0\d{10}$/.test(normalized) || /^\+234\d{10}$/.test(normalized);
+  }
+
   function validateField(field) {
+    if (!field || field.disabled) return true;
+
     const value = fieldValue(field);
     const isEmpty = Array.isArray(value) ? value.length === 0 : value === '';
     let error = '';
@@ -39,15 +55,20 @@ const API_BASE = 'http://localhost:5000/api/v1';
       error = 'This field is required.';
     } else if (!isEmpty && field.type === 'email' && !field.validity.valid) {
       error = 'Enter a valid email address.';
-    } else if (!isEmpty && field.type === 'tel') {
-      const digitCount = value.replace(/\D/g, '').length;
-      if (digitCount < 7 || digitCount > 15) {
-        error = 'Enter a valid phone number.';
-      }
+    } else if (!isEmpty && field.type === 'tel' && !isValidNigerianPhone(value)) {
+      error = 'Enter a valid Nigerian phone number, e.g. 08012345678';
     } else if (!isEmpty && field.type === 'date') {
       const today = new Date();
       const localToday = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
       if (value > localToday) error = 'Date of birth cannot be in the future.';
+    } else if ((field.id === 'password' || field.name === 'password') && !isEmpty && value.length < 8) {
+      error = 'Password must be at least 8 characters.';
+    } else if (field.id === 'confirmPassword' && !isEmpty && value.length < 8) {
+      error = 'Password must be at least 8 characters.';
+    } else if ((field.id === 'password' || field.name === 'password') && !isEmpty && confirmPasswordField && !confirmPasswordField.disabled && confirmPasswordField.value.trim() && value !== confirmPasswordField.value.trim()) {
+      error = 'Passwords do not match.';
+    } else if (field.id === 'confirmPassword' && !isEmpty && passwordField && !passwordField.disabled && passwordField.value.trim() && value !== passwordField.value.trim()) {
+      error = 'Passwords do not match.';
     }
 
     const errorElement = document.getElementById(`${field.id}-error`);
@@ -66,11 +87,91 @@ const API_BASE = 'http://localhost:5000/api/v1';
     field.addEventListener('blur', () => validateField(field));
     field.addEventListener('input', () => {
       if (field.getAttribute('aria-invalid') === 'true') validateField(field);
+      if (field.id === 'password' || field.id === 'confirmPassword') {
+        if (passwordField && confirmPasswordField && !passwordField.disabled && !confirmPasswordField.disabled) {
+          validateField(passwordField);
+          validateField(confirmPasswordField);
+        }
+      }
     });
     field.addEventListener('change', () => {
       if (field.getAttribute('aria-invalid') === 'true') validateField(field);
+      if (field.id === 'password' || field.id === 'confirmPassword') {
+        if (passwordField && confirmPasswordField) {
+          validateField(passwordField);
+          validateField(confirmPasswordField);
+        }
+      }
     });
   });
+
+  function setupPasswordFields() {
+    if (!passwordField || !confirmPasswordField || !passwordFields) return;
+
+    const shouldShowPasswordFields = createLoginAccountField ? createLoginAccountField.value === 'Yes' : false;
+    passwordFields.classList.toggle('hidden', !shouldShowPasswordFields);
+    passwordField.disabled = !shouldShowPasswordFields;
+    confirmPasswordField.disabled = !shouldShowPasswordFields;
+    passwordField.required = shouldShowPasswordFields;
+    confirmPasswordField.required = shouldShowPasswordFields;
+
+    if (!shouldShowPasswordFields) {
+      passwordField.value = '';
+      confirmPasswordField.value = '';
+      passwordField.setAttribute('aria-invalid', 'false');
+      confirmPasswordField.setAttribute('aria-invalid', 'false');
+      passwordField.classList.remove('border-danger', 'focus:border-danger');
+      confirmPasswordField.classList.remove('border-danger', 'focus:border-danger');
+      const passwordError = document.getElementById('password-error');
+      const confirmError = document.getElementById('confirmPassword-error');
+      if (passwordError) {
+        passwordError.textContent = '';
+        passwordError.classList.add('hidden');
+      }
+      if (confirmError) {
+        confirmError.textContent = '';
+        confirmError.classList.add('hidden');
+      }
+    }
+  }
+
+  function setupPasswordToggles() {
+    document.querySelectorAll('[data-password-toggle]').forEach((toggleButton) => {
+      const targetId = toggleButton.dataset.passwordToggle;
+      if (!targetId) return;
+      toggleButton.addEventListener('click', () => {
+        const input = form.querySelector(`#${CSS.escape(targetId)}`);
+        if (!input) return;
+        const shouldShow = input.type === 'password';
+        input.type = shouldShow ? 'text' : 'password';
+        toggleButton.textContent = shouldShow ? 'Hide' : 'Show';
+      });
+    });
+  }
+
+  function generatePassword() {
+    const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
+    let generated = '';
+    for (let index = 0; index < 10; index += 1) {
+      generated += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+    }
+    if (passwordField) {
+      passwordField.value = generated;
+      passwordField.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+    if (confirmPasswordField) {
+      confirmPasswordField.value = generated;
+      confirmPasswordField.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  }
+
+  document.querySelectorAll('[data-generate-password]').forEach((button) => {
+    button.addEventListener('click', generatePassword);
+  });
+
+  if (createLoginAccountField) {
+    createLoginAccountField.addEventListener('change', setupPasswordFields);
+  }
 
   function setupLocationDropdowns() {
     const stateSelect = form.elements.stateOfOrigin;
@@ -139,9 +240,10 @@ const API_BASE = 'http://localhost:5000/api/v1';
   function createPayload() {
     const payload = {};
     fields.forEach((field) => {
+      if (field.disabled || field.name === 'confirmPassword') return;
       const value = fieldValue(field);
       if (optionalNames.has(field.name) && (value === '' || (Array.isArray(value) && value.length === 0))) return;
-      payload[field.name] = value;
+      if (field.name) payload[field.name] = value;
     });
 
     if (Object.prototype.hasOwnProperty.call(payload, 'createLoginAccount')) {
@@ -168,15 +270,6 @@ const API_BASE = 'http://localhost:5000/api/v1';
     return fallback;
   }
 
-  function temporaryPasswordFrom(data) {
-    const result = data && data.data && typeof data.data === 'object' ? data.data : data;
-    return result && (
-      result.temporaryPassword
-      || result.tempPassword
-      || result.temporary_password
-    );
-  }
-
   async function submitToServer(payload, token) {
     const response = await fetch(`${API_BASE}/${endpoint}`, {
       method: 'POST',
@@ -198,7 +291,7 @@ const API_BASE = 'http://localhost:5000/api/v1';
           showMessage(`Request failed (${response.status}): ${responseText}`, 'error');
           return;
         }
-        showMessage('Saved successfully, but the server response was not valid JSON. Check the server for any temporary password.', 'success');
+        showMessage('Saved successfully, but the server response was not valid JSON.', 'success');
         return;
       }
     }
@@ -209,12 +302,15 @@ const API_BASE = 'http://localhost:5000/api/v1';
     }
 
     const recordType = endpoint.slice(0, -1);
-    const password = temporaryPasswordFrom(data);
     showMessage(
-      `${responseMessage(data, `${recordType.charAt(0).toUpperCase()}${recordType.slice(1)} saved successfully.`)}${password ? ` Temporary password: ${password}` : ''}`,
+      responseMessage(data, `${recordType.charAt(0).toUpperCase()}${recordType.slice(1)} saved successfully.`),
       'success'
     );
+
+    if (passwordField) passwordField.value = '';
+    if (confirmPasswordField) confirmPasswordField.value = '';
     form.reset();
+    setupPasswordFields();
     if (form.elements.stateOfOrigin) {
       form.elements.stateOfOrigin.dispatchEvent(new Event('change'));
     }
@@ -222,6 +318,8 @@ const API_BASE = 'http://localhost:5000/api/v1';
   }
 
   setupLocationDropdowns();
+  setupPasswordToggles();
+  setupPasswordFields();
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -241,7 +339,6 @@ const API_BASE = 'http://localhost:5000/api/v1';
     try {
       const payload = createPayload();
       if (new URLSearchParams(window.location.search).get('demo') === '1') {
-        // TEMPORARY: remove before final merge
         await new Promise((resolve) => window.setTimeout(resolve, 1000));
         showMessage('Demo mode: the form was validated successfully. No data was sent to the server.', 'success');
         return;

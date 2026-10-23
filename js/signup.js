@@ -80,9 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     regNo: (value) => {
       const trimmed = value.trim();
-      if (!trimmed) return null;
-      if (!/^[A-Za-z0-9/-]{3,30}$/.test(trimmed)) {
-        return 'Use 3 to 30 letters, numbers, hyphens or slashes.';
+      if (!trimmed) return 'Registration number is required.';
+      if (!/^STU-\d+$/.test(trimmed)) {
+        return 'Registration number must start with STU- followed by digits (e.g. STU-0001).';
       }
       return null;
     },
@@ -358,16 +358,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const errorMsg = (data.message || data.error || '').toLowerCase();
 
         if (errorMsg.includes('not found') || response.status === 404) {
-          if (payload.regNo) {
-            // Generic wording for failed matches to preserve student privacy
-            showFormAlert('We could not verify this registration number. Please check the number and try again.');
-            setFieldError('regNo', 'Registration number could not be verified.');
-            fields.regNo.focus();
-          } else {
-            showFormAlert('We could not find a student registered with this email. Check the email your school has on file.');
-            setFieldError('email', 'No student was found with this email address.');
-            fields.email.focus();
-          }
+          // Generic wording for failed matches to preserve student privacy
+          showFormAlert('We could not verify this registration number. Please check the number and try again.');
+          setFieldError('regNo', 'Registration number could not be verified.');
+          fields.regNo.focus();
         } else if (
           errorMsg.includes('already registered') ||
           (errorMsg.includes('registration') && errorMsg.includes('already'))

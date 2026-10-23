@@ -17,7 +17,7 @@
       <span class="text-2xl" aria-hidden="true">🎓</span>
       <span>Educ<span class="text-[#22c55e]">anize</span></span>
     </div>
-    <a href="./html/login.html" class="text-xs font-semibold text-white/80 hover:text-white transition-colors bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-input">
+    <a href="login.html" class="text-xs font-semibold text-white/80 hover:text-white transition-colors bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-input">
       Sign In
     </a>
   </header>
@@ -54,7 +54,7 @@
         <div class="space-y-5">
           <!-- Benefit 1 -->
           <div class="flex items-start gap-4 anim-fade-up" style="--delay: 960ms;">
-            <div class="w-10 h-10 rounded-input bg-primary/20 border border-primary/30 flex items-center justify-center text-primary-300 text-lg shrink-0" aria-hidden="true">
+            <div class="w-10 h-10 rounded-input bg-primary/20 border border-primary/30 flex items-center justify-center text-primary-300 text-lg flex-shrink-0" aria-hidden="true">
               📝
             </div>
             <div>
@@ -67,7 +67,7 @@
 
           <!-- Benefit 2 -->
           <div class="flex items-start gap-4 anim-fade-up" style="--delay: 1140ms;">
-            <div class="w-10 h-10 rounded-input bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 text-lg shrink-0" aria-hidden="true">
+            <div class="w-10 h-10 rounded-input bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 text-lg flex-shrink-0" aria-hidden="true">
               💳
             </div>
             <div>
@@ -80,7 +80,7 @@
 
           <!-- Benefit 3 -->
           <div class="flex items-start gap-4 anim-fade-up" style="--delay: 1320ms;">
-            <div class="w-10 h-10 rounded-input bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-300 text-lg shrink-0" aria-hidden="true">
+            <div class="w-10 h-10 rounded-input bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-300 text-lg flex-shrink-0" aria-hidden="true">
               ✅
             </div>
             <div>
@@ -97,7 +97,7 @@
 
     <!-- Right Half: Form Container on Page Background -->
     <section class="flex-1 flex items-center justify-center p-4 sm:p-8 lg:p-12">
-      <div class="w-full max-w-135">
+      <div class="w-full max-w-[540px]">
 
         <!-- Form Card -->
         <div id="formCard" class="bg-card border border-border rounded-card p-6 sm:p-9 shadow-sm transition-colors anim-card" style="--delay: 500ms;">
@@ -114,7 +114,7 @@
 
           <!-- Form Level Alert Container -->
           <div id="formAlert" class="hidden" role="alert" aria-live="polite">
-            <svg class="w-4 h-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
             </svg>
             <span id="formAlertText" class="flex-1 leading-normal font-medium"></span>
@@ -163,7 +163,7 @@
             <!-- Registration Number -->
             <div class="anim-fade-up-8" style="--delay: 1240ms;">
               <label for="regNo" class="block text-xs font-semibold text-text mb-1.5">
-                Registration number <span class="text-muted font-normal">(optional)</span>
+                Registration number <span class="text-danger" aria-hidden="true">*</span>
               </label>
               <input
                 id="regNo"
@@ -171,9 +171,9 @@
                 type="text"
                 placeholder="e.g. STU-0001"
                 class="w-full px-3.5 py-2.5 rounded-input border border-border bg-bg text-text text-sm uppercase focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted/60 font-mono"
+                aria-required="true"
               />
               <p id="regNo-error" class="hidden text-danger text-xs mt-1.5 font-medium" role="alert"></p>
-              <p class="text-muted text-xs mt-1.5">No registration number? Use the email your school registered for you.</p>
             </div>
 
             <!-- Gender Select -->
@@ -181,16 +181,24 @@
               <label for="gender" class="block text-xs font-semibold text-text mb-1.5">
                 Gender <span class="text-danger" aria-hidden="true">*</span>
               </label>
-              <select
-                id="gender"
-                name="gender"
-                class="w-full px-3.5 py-2.5 rounded-input border border-border bg-bg text-text text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none cursor-pointer pr-10"
-                aria-required="true"
-              >
-                <option value="" disabled selected>Select gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
+              <div class="relative">
+                <select
+                  id="gender"
+                  name="gender"
+                  class="w-full px-3.5 py-2.5 rounded-input border border-border bg-bg text-text text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none cursor-pointer pr-10"
+                  aria-required="true"
+                >
+                  <option value="" disabled selected>Select gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+                <!-- Chevron Dropdown Icon -->
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-muted">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </div>
+              </div>
               <p id="gender-error" class="hidden text-danger text-xs mt-1.5 font-medium" role="alert"></p>
             </div>
 

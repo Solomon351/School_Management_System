@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Add Parent – Educanize School Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/output.css">
+</head>
+<body class="flex min-h-screen bg-bg font-sans text-text antialiased transition-colors">
+  <div id="admin-sidebar"></div>
+
+  <main class="flex min-h-screen min-w-0 flex-1 flex-col">
+    <div id="admin-header"></div>
+    <section class="flex-1 px-4 py-5 sm:px-6 lg:px-8">
+      <div class="mx-auto w-full max-w-7xl">
+        <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 class="text-2xl font-bold tracking-tight text-text">Add Parent</h1>
+            <p class="mt-1 text-sm text-muted">Guardian details, children and login</p>
+          </div>
+          <a href="./parents.html" class="inline-flex h-10 items-center justify-center rounded-input border border-border bg-card px-4 py-2 text-sm font-semibold text-text transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+            Back
+          </a>
+        </div>
+
+        <div class="rounded-card border border-border bg-card p-6 shadow-sm transition-colors sm:p-9">
+          <div id="form-message" class="mb-5 hidden rounded-input border px-4 py-3 text-sm" role="status" aria-live="polite"></div>
+          <form id="admin-form" data-endpoint="parents" novalidate class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label for="firstName" class="mb-1.5 block text-xs font-semibold text-text">First name <span class="text-danger" aria-hidden="true">*</span></label>
+              <input id="firstName" name="firstName" type="text" autocomplete="given-name" required aria-required="true" aria-describedby="firstName-error" class="w-full rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-muted/60 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+              <p id="firstName-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div>
+              <label for="lastName" class="mb-1.5 block text-xs font-semibold text-text">Last name <span class="text-danger" aria-hidden="true">*</span></label>
+              <input id="lastName" name="lastName" type="text" autocomplete="family-name" required aria-required="true" aria-describedby="lastName-error" class="w-full rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-muted/60 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+              <p id="lastName-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div>
+              <label for="phoneNumber" class="mb-1.5 block text-xs font-semibold text-text">Phone number <span class="text-danger" aria-hidden="true">*</span></label>
+              <input id="phoneNumber" name="phoneNumber" type="tel" autocomplete="tel" required aria-required="true" aria-describedby="phoneNumber-error" class="w-full rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-muted/60 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+              <p id="phoneNumber-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div>
+              <label for="email" class="mb-1.5 block text-xs font-semibold text-text">Email address <span class="text-danger" aria-hidden="true">*</span></label>
+              <input id="email" name="email" type="email" autocomplete="email" required aria-required="true" aria-describedby="email-error" class="w-full rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-muted/60 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+              <p id="email-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div>
+              <label for="stateOfOrigin" class="mb-1.5 block text-xs font-semibold text-text">State of origin <span class="text-danger" aria-hidden="true">*</span></label>
+              <select id="stateOfOrigin" name="stateOfOrigin" required aria-required="true" aria-describedby="stateOfOrigin-error" class="w-full appearance-none rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <option value="">Select state</option>
+              </select>
+              <p id="stateOfOrigin-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div>
+              <label for="localGovernment" class="mb-1.5 block text-xs font-semibold text-text">Local government of origin <span class="text-danger" aria-hidden="true">*</span></label>
+              <select id="localGovernment" name="localGovernment" required aria-required="true" aria-describedby="localGovernment-error" disabled class="w-full appearance-none rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-60">
+                <option value="">Select state first</option>
+              </select>
+              <p id="localGovernment-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div>
+              <label for="relationship" class="mb-1.5 block text-xs font-semibold text-text">Relationship <span class="text-danger" aria-hidden="true">*</span></label>
+              <select id="relationship" name="relationship" required aria-required="true" aria-describedby="relationship-error" class="w-full appearance-none rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <option value="">Select relationship</option>
+                <option>Mother</option><option>Father</option><option>Guardian</option>
+              </select>
+              <p id="relationship-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div>
+              <label for="linkChild" class="mb-1.5 block text-xs font-semibold text-text">Link child <span class="text-danger" aria-hidden="true">*</span></label>
+              <input id="linkChild" name="linkChild" type="search" autocomplete="off" placeholder="Search by name or registration number" required aria-required="true" aria-describedby="linkChild-help linkChild-error" class="w-full rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-muted/60 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+              <p id="linkChild-help" class="mt-1 text-xs text-muted">Enter a student's name or registration number.</p>
+              <p id="linkChild-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div>
+              <label for="createLoginAccount" class="mb-1.5 block text-xs font-semibold text-text">Create login account <span class="text-danger" aria-hidden="true">*</span></label>
+              <select id="createLoginAccount" name="createLoginAccount" required aria-required="true" aria-describedby="createLoginAccount-error" class="w-full appearance-none rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <option value="Yes">Yes</option><option value="No">No</option>
+              </select>
+              <p id="createLoginAccount-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div class="flex flex-wrap items-center justify-end gap-3 border-t border-border pt-5" style="grid-column: 1 / -1;">
+              <a href="./parents.html" class="inline-flex min-h-10 items-center justify-center rounded-input px-4 py-2 text-sm font-semibold text-muted transition-colors hover:bg-bg hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Cancel</a>
+              <button type="submit" class="inline-flex h-10 items-center justify-center rounded-input bg-primary px-5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-wait disabled:opacity-75">
+                Save Parent
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <div id="site-footer"></div>
+  </main>
+
+  <script src="../../js/footer.js"></script>
+  <script src="../../js/admin-layout.js"></script>
+  <script src="../../js/nigeria-locations.js"></script>
+  <script src="../../js/admin-forms.js"></script>
+</body>
+</html>

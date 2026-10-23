@@ -13,6 +13,13 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "Build Tailwind CSS",
+			"type": "shell",
+			"command": "npm exec -- tailwindcss -i ./css/input.css -o ./css/output.css",
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }

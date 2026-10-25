@@ -56,7 +56,7 @@
     const activePage = currentPage();
     sidebarContainer.innerHTML = `
       <aside id="admin-sidebar-panel"
-        class="sticky top-0 z-40 h-screen w-[230px] shrink-0 overflow-y-auto bg-navy px-3 py-4 text-white/80
+        class="sticky top-0 z-40 h-screen w-57.5 shrink-0 overflow-y-auto bg-navy px-3 py-4 text-white/80
           max-[760px]:fixed max-[760px]:inset-y-0 max-[760px]:left-0 max-[760px]:-translate-x-full
           max-[760px]:transition-transform max-[760px]:duration-200"
         aria-label="Admin navigation">
@@ -87,7 +87,7 @@
       .toUpperCase();
 
     headerContainer.innerHTML = `
-      <header class="sticky top-0 z-20 flex min-h-[68px] items-center gap-3 border-b border-border bg-bg/95 px-4 py-3 backdrop-blur sm:px-6 lg:px-8">
+      <header class="sticky top-0 z-20 flex min-h-17 items-center gap-3 border-b border-border bg-bg/95 px-4 py-3 backdrop-blur sm:px-6 lg:px-8">
         <button id="admin-menu-button" type="button"
           class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-input text-text hover:bg-card
             focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary min-[761px]:hidden"
@@ -97,8 +97,7 @@
         <label class="relative min-w-0 max-w-md flex-1">
           ${icon('<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>', 'pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted')}
           <input type="search" placeholder="Search anything..." aria-label="Search"
-            class="h-10 w-full rounded-input border border-border bg-card pl-9 pr-3 text-sm text-text placeholder:text-muted
-              focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+            class="h-10 w-full rounded-input border border-border bg-card pl-9 pr-9 text-sm text-text placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
         </label>
         <div class="flex flex-1 items-center justify-end gap-1 sm:gap-2">
           <button type="button" aria-label="Notifications"
@@ -114,7 +113,7 @@
               class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
               ${initials || 'A'}
             </span>
-            <div class="min-w-0 max-w-[72px] sm:max-w-none">
+            <div class="min-w-0 max-w-18 sm:max-w-none">
               <p class="truncate text-xs font-semibold text-text sm:text-sm">${adminName}</p>
               <p class="truncate text-[10px] text-muted sm:text-xs">Super Admin</p>
             </div>

@@ -5,50 +5,99 @@
 
   // TEMPORARY: remove before final merge
   const demoData = {
-    totals: {
-      students: 1248,
-      teachers: 86,
-      parents: 932,
-      classes: 24
-    },
-    activity: [
-      { description: 'A new student was added to JSS1A', time: '10 minutes ago' },
-      { description: 'Mr. Daniel Okafor was added as a teacher', time: '35 minutes ago' },
-      { description: 'SS2C class details were updated', time: '1 hour ago' },
-      { description: 'A parent account was created for Adaobi Nwosu', time: '2 hours ago' },
-      { description: 'The attendance register was updated for JSS3B', time: 'Yesterday' }
-    ]
+    stats: [
+      { key: 'students', value: '1,245', trend: '↑ 12 this month' },
+      { key: 'teachers', value: '86', trend: '↑ 8 this month' },
+      { key: 'attendance', value: '92%', trend: '↑ 5%' },
+      { key: 'fees', value: '₦2,450,000', trend: '↑ 18% this month' },
+      { key: 'parents', value: '1,102', trend: '↑ 10 this month' }
+    ],
+    activities: [
+      { icon: '🧑‍🎓', title: 'New Student Admission', description: 'Mary Johnson was admitted', time: '10:30 AM' },
+      { icon: '💸', title: 'Fee Payment Received', description: '₦25,000 by James Okoro', time: '09:15 AM' },
+      { icon: '📄', title: 'Assignment Submitted', description: 'Physics – Class 10A', time: 'Yesterday' },
+      { icon: '👨‍🏫', title: 'Teacher Added', description: 'Mr. David Brown joined', time: 'Yesterday' }
+    ],
+    attendance: [25, 44, 65, 60, 77, 72, 90, 84]
   };
 
-  document.querySelectorAll('[data-dashboard-stat]').forEach((element) => {
-    const key = element.getAttribute('data-dashboard-stat');
-    if (Object.prototype.hasOwnProperty.call(demoData.totals, key)) {
-      element.textContent = demoData.totals[key].toLocaleString();
+  demoData.stats.forEach(({ key, value, trend }) => {
+    const stat = document.querySelector(`[data-dashboard-stat="${key}"]`);
+    const trendElement = document.querySelector(`[data-dashboard-trend="${key}"]`);
+    if (!stat || !trendElement) {
+      throw new Error(`Dashboard is missing the ${key} statistic or trend element.`);
     }
+
+    stat.textContent = value;
+    trendElement.textContent = trend;
+    trendElement.classList.remove('text-muted');
+    trendElement.classList.add('text-success');
   });
 
   const activityList = document.querySelector('[data-dashboard-activity]');
-  const emptyMessage = document.querySelector('[data-dashboard-activity-empty]');
-  if (!activityList || !emptyMessage) {
+  const activityEmpty = document.querySelector('[data-dashboard-activity-empty]');
+  if (!activityList || !activityEmpty) {
     throw new Error('Dashboard activity requires its list and empty-state elements.');
   }
 
-  demoData.activity.forEach(({ description, time }) => {
+  demoData.activities.forEach(({ icon, title, description, time }) => {
     const item = document.createElement('li');
-    item.className = 'flex flex-col gap-1 py-3 first:pt-0 last:pb-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4';
+    item.className = 'flex gap-3 py-2.5';
 
-    const text = document.createElement('p');
-    text.className = 'text-sm text-text';
-    text.textContent = description;
+    const iconElement = document.createElement('span');
+    iconElement.className = 'shrink-0 text-base';
+    iconElement.setAttribute('aria-hidden', 'true');
+    iconElement.textContent = icon;
 
-    const timestamp = document.createElement('span');
-    timestamp.className = 'shrink-0 text-xs text-muted';
-    timestamp.textContent = time;
+    const content = document.createElement('div');
+    content.className = 'min-w-0 flex-1';
 
-    item.append(text, timestamp);
+    const titleElement = document.createElement('p');
+    titleElement.className = 'text-xs font-semibold text-text';
+    titleElement.textContent = title;
+
+    const descriptionElement = document.createElement('p');
+    descriptionElement.className = 'mt-0.5 text-xs text-muted';
+    descriptionElement.textContent = description;
+
+    const timeElement = document.createElement('span');
+    timeElement.className = 'shrink-0 text-xs text-muted';
+    timeElement.textContent = time;
+
+    content.append(titleElement, descriptionElement);
+    item.append(iconElement, content, timeElement);
     activityList.append(item);
   });
 
-  emptyMessage.classList.add('hidden');
+  activityEmpty.classList.add('hidden');
   activityList.classList.remove('hidden');
+
+  const chartLine = document.querySelector('[data-attendance-line]');
+  const chartArea = document.querySelector('[data-attendance-area]');
+  const chartPoints = document.querySelector('[data-attendance-points]');
+  const chartEmpty = document.querySelector('[data-dashboard-chart-empty]');
+  if (!chartLine || !chartArea || !chartPoints || !chartEmpty) {
+    throw new Error('Dashboard attendance chart is missing required elements.');
+  }
+
+  const points = demoData.attendance.map((value, index) => ({
+    x: 30 + index * 80,
+    y: 190 - value * 1.8
+  }));
+  const pointList = points.map(({ x, y }) => `${x},${y}`).join(' ');
+
+  chartLine.setAttribute('points', pointList);
+  chartArea.setAttribute('points', `30,190 ${pointList} ${points[points.length - 1].x},190`);
+
+  const namespace = 'http://www.w3.org/2000/svg';
+  points.forEach(({ x, y }) => {
+    const point = document.createElementNS(namespace, 'circle');
+    point.setAttribute('cx', String(x));
+    point.setAttribute('cy', String(y));
+    point.setAttribute('r', '3.5');
+    point.setAttribute('fill', 'currentColor');
+    chartPoints.append(point);
+  });
+
+  chartEmpty.classList.add('hidden');
 })();

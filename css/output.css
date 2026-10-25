@@ -354,6 +354,9 @@
   .mx-auto {
     margin-inline: auto;
   }
+  .my-1 {
+    margin-block: var(--spacing);
+  }
   .my-12 {
     margin-block: calc(var(--spacing) * 12);
   }
@@ -710,6 +713,9 @@
   .grid-cols-5 {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
+  .grid-cols-7 {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
   .flex-col {
     flex-direction: column;
   }
@@ -1040,6 +1046,12 @@
       background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
     }
   }
+  .bg-primary\/90 {
+    background-color: var(--color-primary);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-primary) 90%, transparent);
+    }
+  }
   .bg-success {
     background-color: var(--color-success);
   }
@@ -1053,6 +1065,12 @@
     background-color: var(--color-success);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-success) 15%, transparent);
+    }
+  }
+  .bg-success\/90 {
+    background-color: var(--color-success);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-success) 90%, transparent);
     }
   }
   .bg-text {
@@ -1075,6 +1093,12 @@
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-white) 10%, transparent);
     }
+  }
+  .fill-muted {
+    fill: var(--color-muted);
+  }
+  .stroke-border {
+    stroke: var(--color-border);
   }
   .p-1 {
     padding: var(--spacing);
@@ -1284,6 +1308,9 @@
   }
   .text-\[11px\] {
     font-size: 11px;
+  }
+  .text-\[15px\] {
+    font-size: 15px;
   }
   .leading-normal {
     --tw-leading: var(--leading-normal);
@@ -1817,6 +1844,9 @@
     .sm\:grid-cols-3 {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
+    .sm\:grid-cols-6 {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
     .sm\:grid-cols-\[11rem_minmax\(0\,1fr\)_2\.5rem\] {
       grid-template-columns: 11rem minmax(0,1fr) 2.5rem;
     }
@@ -1942,6 +1972,12 @@
     .lg\:grid-cols-4 {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
+    .lg\:grid-cols-5 {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+    .lg\:grid-cols-6 {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
     .lg\:p-12 {
       padding: calc(var(--spacing) * 12);
     }
@@ -1971,8 +2007,17 @@
     }
   }
   @media (width >= 80rem) {
+    .xl\:col-span-2 {
+      grid-column: span 2 / span 2;
+    }
+    .xl\:grid-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
     .xl\:grid-cols-4 {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .xl\:grid-cols-5 {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
     }
   }
 }

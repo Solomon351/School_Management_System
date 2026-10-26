@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>My Results – Educanize School Management</title>
+  <link rel="stylesheet" href="../../css/output.css">
+</head>
+<body class="flex min-h-screen bg-bg font-sans text-text antialiased transition-colors">
+  <div id="admin-sidebar"></div>
+
+  <main class="flex min-h-screen min-w-0 flex-1 flex-col">
+    <div id="admin-header"></div>
+    <section class="min-w-0 flex-1 px-4 py-5 sm:px-6 lg:px-8" data-results-page>
+      <div class="mx-auto w-full max-w-7xl">
+        <div class="mb-5">
+          <h1 class="text-2xl font-bold tracking-tight text-text">My Results</h1>
+          <p class="mt-1 text-sm text-muted">Enter your scratch card details to view results</p>
+        </div>
+
+        <div class="overflow-hidden rounded-card border border-border bg-card shadow-sm transition-colors">
+          <form id="results-form" class="grid gap-3 p-4 sm:grid-cols-2 sm:p-5">
+            <label class="flex flex-col gap-1 text-xs font-medium text-muted">
+              <span>Term</span>
+              <select id="results-term" class="h-10 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <option>First Term 2026/2027</option>
+                <option>Second Term 2026/2027</option>
+                <option>Third Term 2026/2027</option>
+              </select>
+            </label>
+            <label class="flex flex-col gap-1 text-xs font-medium text-muted">
+              <span>Serial Number</span>
+              <input id="results-serial" type="text" placeholder="SC001"
+                class="h-10 rounded-input border border-border bg-bg px-3 text-sm text-text placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+            </label>
+            <label class="flex flex-col gap-1 text-xs font-medium text-muted sm:col-span-2">
+              <span>Scratch Card PIN</span>
+              <input id="results-pin" type="text" placeholder="Enter PIN"
+                class="h-10 rounded-input border border-border bg-bg px-3 text-sm text-text placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+            </label>
+            <div class="sm:col-span-2">
+              <button type="submit" class="inline-flex h-10 items-center justify-center rounded-input bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+                Check Result
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <section id="results-panel" class="mt-4 overflow-hidden rounded-card border border-border bg-card shadow-sm transition-colors" aria-live="polite" aria-label="Result details">
+          <div id="results-placeholder" class="p-5 text-sm text-muted">Your result will appear here.</div>
+          <div id="results-content" class="hidden">
+            <div class="border-b border-border px-4 py-4 sm:px-5">
+              <h2 class="text-base font-semibold text-text">Result</h2>
+            </div>
+            <div class="max-w-full overflow-x-auto">
+              <table class="w-full min-w-80 border-collapse text-left">
+                <caption class="sr-only">Student subject results</caption>
+                <thead class="bg-bg text-xs font-semibold uppercase tracking-wide text-muted">
+                  <tr>
+                    <th scope="col" class="px-4 py-3">Subject</th>
+                    <th scope="col" class="px-4 py-3">Score</th>
+                    <th scope="col" class="px-4 py-3">Grade</th>
+                  </tr>
+                </thead>
+                <tbody id="results-rows" class="divide-y divide-border"></tbody>
+              </table>
+            </div>
+            <div class="border-t border-border px-4 py-4 text-sm text-text sm:px-5">
+              <p id="results-summary" class="font-medium"></p>
+            </div>
+          </div>
+          <p id="results-feedback" class="hidden border-t border-border px-4 py-3 text-sm text-muted sm:px-5" role="status"></p>
+        </section>
+      </div>
+    </section>
+    <div id="site-footer"></div>
+  </main>
+
+  <script src="../../js/footer.js"></script>
+  <script src="../../js/admin-layout.js"></script>
+  <script src="../../js/admin-results.js"></script>
+</body>
+</html>

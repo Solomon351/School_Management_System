@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Scratch Cards – Educanize School Management</title>
+  <link rel="stylesheet" href="../../css/output.css">
+</head>
+<body class="flex min-h-screen bg-bg font-sans text-text antialiased transition-colors">
+  <div id="admin-sidebar"></div>
+
+  <main class="flex min-h-screen min-w-0 flex-1 flex-col">
+    <div id="admin-header"></div>
+    <section class="min-w-0 flex-1 px-4 py-5 sm:px-6 lg:px-8" data-scratch-cards-page>
+      <div class="mx-auto w-full max-w-7xl">
+        <div class="mb-5">
+          <h1 class="text-2xl font-bold tracking-tight text-text">Scratch Cards</h1>
+          <p class="mt-1 text-sm text-muted">Generate result-checking cards for students</p>
+        </div>
+
+        <div class="grid min-w-0 gap-4 lg:grid-cols-2">
+          <section class="overflow-hidden rounded-card border border-border bg-card shadow-sm transition-colors" aria-labelledby="generate-cards-heading">
+            <div class="border-b border-border p-4 sm:p-5">
+              <h2 id="generate-cards-heading" class="text-base font-semibold text-text">Generate Cards</h2>
+            </div>
+            <form id="scratch-card-form" class="grid gap-3 p-4 sm:grid-cols-2 sm:p-5">
+              <label class="flex flex-col gap-1 text-xs font-medium text-muted">
+                <span>Session</span>
+                <select class="h-10 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                  <option>2026/2027</option>
+                </select>
+              </label>
+              <label class="flex flex-col gap-1 text-xs font-medium text-muted">
+                <span>Term</span>
+                <select class="h-10 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                  <option>First</option>
+                  <option>Second</option>
+                  <option>Third</option>
+                </select>
+              </label>
+              <label class="flex flex-col gap-1 text-xs font-medium text-muted">
+                <span>Quantity</span>
+                <input type="number" min="1" value="10"
+                  class="h-10 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+              </label>
+              <label class="flex flex-col gap-1 text-xs font-medium text-muted">
+                <span>Uses per card</span>
+                <input type="number" min="1" value="5"
+                  class="h-10 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+              </label>
+              <div class="sm:col-span-2">
+                <button type="submit" class="inline-flex h-10 items-center justify-center rounded-input bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+                  Generate Cards
+                </button>
+                <p class="mt-3 text-xs text-muted">PINs are shown once, so copy or print them straight away.</p>
+              </div>
+            </form>
+          </section>
+
+          <section class="min-w-0 overflow-hidden rounded-card border border-border bg-card shadow-sm transition-colors" aria-labelledby="previous-batches-heading">
+            <div class="border-b border-border p-4 sm:p-5">
+              <h2 id="previous-batches-heading" class="text-base font-semibold text-text">Previous Batches</h2>
+            </div>
+            <div id="batch-empty" class="p-5 text-sm text-muted" role="status" aria-live="polite">
+              No scratch-card batches are available.
+            </div>
+            <div id="batch-table" class="hidden min-w-0">
+              <div class="max-w-full overflow-x-auto">
+                <table class="w-full min-w-80 border-collapse text-left">
+                  <caption class="sr-only">Previous scratch-card batches</caption>
+                  <thead class="bg-bg text-xs font-semibold uppercase tracking-wide text-muted">
+                    <tr>
+                      <th scope="col" class="px-4 py-3">Batch</th>
+                      <th scope="col" class="px-4 py-3">Term</th>
+                      <th scope="col" class="px-4 py-3">Cards</th>
+                      <th scope="col" class="px-4 py-3">Used</th>
+                    </tr>
+                  </thead>
+                  <tbody id="batch-rows" class="divide-y divide-border"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="mt-4 overflow-hidden rounded-card border border-border bg-card shadow-sm transition-colors" aria-label="Generated cards">
+          <div id="generated-empty" class="p-5 text-sm text-muted" role="status" aria-live="polite">
+            Generated cards will appear here.
+          </div>
+        </section>
+      </div>
+    </section>
+    <div id="site-footer"></div>
+  </main>
+
+  <script src="../../js/footer.js"></script>
+  <script src="../../js/admin-layout.js"></script>
+  <script src="../../js/admin-scratch-cards.js"></script>
+</body>
+</html>

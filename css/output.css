@@ -627,11 +627,23 @@
   .min-w-0 {
     min-width: 0px;
   }
+  .min-w-8 {
+    min-width: calc(var(--spacing) * 8);
+  }
   .min-w-28 {
     min-width: calc(var(--spacing) * 28);
   }
   .min-w-32 {
     min-width: calc(var(--spacing) * 32);
+  }
+  .min-w-72 {
+    min-width: calc(var(--spacing) * 72);
+  }
+  .min-w-80 {
+    min-width: calc(var(--spacing) * 80);
+  }
+  .min-w-120 {
+    min-width: calc(var(--spacing) * 120);
   }
   .min-w-160 {
     min-width: calc(var(--spacing) * 160);
@@ -1840,6 +1852,12 @@
     }
     .sm\:max-w-sm {
       max-width: var(--container-sm);
+    }
+    .sm\:min-w-32 {
+      min-width: calc(var(--spacing) * 32);
+    }
+    .sm\:min-w-36 {
+      min-width: calc(var(--spacing) * 36);
     }
     .sm\:min-w-40 {
       min-width: calc(var(--spacing) * 40);

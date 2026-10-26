@@ -11,6 +11,11 @@
   const cardEmpty = document.getElementById('exam-card-empty');
   const cardTable = document.getElementById('exam-card-table');
   const cardRows = document.getElementById('exam-card-rows');
+  const cardForm = document.getElementById('exam-card-form');
+  const cardQuantity = document.getElementById('exam-card-quantity');
+  const cardPrice = document.getElementById('exam-card-price');
+  const cardTotal = document.getElementById('exam-card-total');
+  const cardSubmit = document.getElementById('exam-card-submit');
   const demoMode = new URLSearchParams(window.location.search).get('demo') === '1';
 
   let exams = [];
@@ -85,6 +90,28 @@
     cardEmpty.classList.toggle('hidden', scratchCards.length > 0);
   }
 
+  function updateCardTotal() {
+    const quantity = Number(cardQuantity.value);
+    const price = Number(cardPrice.value);
+    const valid = cardQuantity.value !== ''
+      && cardPrice.value !== ''
+      && Number.isInteger(quantity)
+      && quantity > 0
+      && Number.isFinite(price)
+      && price > 0;
+
+    cardSubmit.disabled = !valid;
+    if (!valid) {
+      cardTotal.textContent = 'Total value: ₦0';
+      return;
+    }
+
+    const formatNumber = (value) => new Intl.NumberFormat('en-NG', {
+      maximumFractionDigits: 2
+    }).format(value);
+    cardTotal.textContent = `Total value: ${formatNumber(quantity)} x ₦${formatNumber(price)} = ₦${formatNumber(quantity * price)}`;
+  }
+
   Array.from(new Set(exams.map((exam) => exam.className))).forEach((className) => {
     const option = document.createElement('option');
     option.value = className;
@@ -94,10 +121,13 @@
 
   renderExams();
   renderCards();
+  updateCardTotal();
 
   search.addEventListener('input', renderExams);
   classFilter.addEventListener('change', renderExams);
   statusFilter.addEventListener('change', renderExams);
+  cardQuantity.addEventListener('input', updateCardTotal);
+  cardPrice.addEventListener('input', updateCardTotal);
 
   document.getElementById('exam-create').addEventListener('click', () => {
     const feedback = document.getElementById('exam-feedback');
@@ -105,8 +135,11 @@
     feedback.classList.remove('hidden');
   });
 
-  document.getElementById('exam-card-form').addEventListener('submit', (event) => {
+  cardForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    updateCardTotal();
+    if (cardSubmit.disabled) return;
+
     const feedback = document.getElementById('exam-card-feedback');
     feedback.textContent = 'Card generation is not available here yet. No PINs were created.';
     feedback.classList.remove('hidden');

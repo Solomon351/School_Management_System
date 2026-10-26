@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Examinations – Educanize School Management</title>
+  <link rel="stylesheet" href="../../css/output.css">
+</head>
+<body class="flex min-h-screen bg-bg font-sans text-text antialiased transition-colors">
+  <div id="admin-sidebar"></div>
+
+  <main class="flex min-h-screen min-w-0 flex-1 flex-col">
+    <div id="admin-header"></div>
+    <section class="min-w-0 flex-1 px-4 py-5 sm:px-6 lg:px-8" data-examinations-page>
+      <div class="mx-auto w-full max-w-7xl">
+        <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 class="text-2xl font-bold tracking-tight text-text">Examinations &amp; Results</h1>
+            <p class="mt-1 text-sm text-muted">Exams, results &amp; scratch cards</p>
+          </div>
+          <button id="exam-create" type="button"
+            class="inline-flex h-10 items-center justify-center gap-2 rounded-input bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+            <span aria-hidden="true">＋</span>
+            Create Exam
+          </button>
+        </div>
+
+        <p id="exam-feedback" class="mb-4 hidden rounded-input border border-border bg-card px-4 py-3 text-sm text-muted" role="status" aria-live="polite"></p>
+
+        <div class="grid min-w-0 gap-4 lg:grid-cols-2">
+          <section class="min-w-0 overflow-hidden rounded-card border border-border bg-card shadow-sm transition-colors" aria-labelledby="exam-schedule-heading">
+            <div class="border-b border-border p-4 sm:p-5">
+              <h2 id="exam-schedule-heading" class="text-base font-semibold text-text">Exam Schedule</h2>
+            </div>
+            <div class="flex flex-col gap-3 border-b border-border p-4 sm:flex-row sm:flex-wrap sm:items-end sm:p-5">
+              <label class="flex min-w-0 flex-1 flex-col gap-1 text-xs font-medium text-muted sm:min-w-36">
+                <span>Search exams</span>
+                <input id="exam-search" type="search" placeholder="Search exams..." aria-label="Search exams"
+                  class="h-10 w-full rounded-input border border-border bg-bg px-3 text-sm text-text placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+              </label>
+              <label class="flex min-w-0 flex-1 flex-col gap-1 text-xs font-medium text-muted sm:min-w-32">
+                <span>Class</span>
+                <select id="exam-class-filter" aria-label="Filter exams by class"
+                  class="h-10 w-full rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                  <option value="all">All classes</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-1 flex-col gap-1 text-xs font-medium text-muted sm:min-w-32">
+                <span>Status</span>
+                <select id="exam-status-filter" aria-label="Filter exams by status"
+                  class="h-10 w-full rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                  <option value="all">All statuses</option>
+                  <option value="Published">Published</option>
+                  <option value="Draft">Draft</option>
+                </select>
+              </label>
+            </div>
+            <div id="exam-empty" class="p-5 text-sm text-muted" role="status" aria-live="polite">
+              No exams are available. Exam schedule data will appear here when it is provided.
+            </div>
+            <div id="exam-table" class="hidden min-w-0">
+              <div class="max-w-full overflow-x-auto">
+                <table class="w-full min-w-120 border-collapse text-left">
+                  <caption class="sr-only">Exam schedule</caption>
+                  <thead class="bg-bg text-xs font-semibold uppercase tracking-wide text-muted">
+                    <tr>
+                      <th scope="col" class="px-4 py-3">Exam</th>
+                      <th scope="col" class="px-4 py-3">Class</th>
+                      <th scope="col" class="px-4 py-3">Date</th>
+                      <th scope="col" class="px-4 py-3">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="exam-rows" class="divide-y divide-border"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="min-w-0 overflow-hidden rounded-card border border-border bg-card shadow-sm transition-colors" aria-labelledby="exam-cards-heading">
+            <div class="border-b border-border p-4 sm:p-5">
+              <h2 id="exam-cards-heading" class="text-base font-semibold text-text">Result Scratch Cards</h2>
+            </div>
+            <div class="p-4 sm:p-5">
+              <form id="exam-card-form" class="grid gap-3 sm:grid-cols-2">
+                <label class="flex flex-col gap-1 text-xs font-medium text-muted">
+                  <span>Session</span>
+                  <select id="exam-card-session" class="h-10 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                    <option>2026/2027</option>
+                  </select>
+                </label>
+                <label class="flex flex-col gap-1 text-xs font-medium text-muted">
+                  <span>Term</span>
+                  <select id="exam-card-term" class="h-10 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                    <option>First</option>
+                    <option>Second</option>
+                    <option>Third</option>
+                  </select>
+                </label>
+                <label class="flex flex-col gap-1 text-xs font-medium text-muted">
+                  <span>Quantity</span>
+                  <input id="exam-card-quantity" type="number" min="1" value="50"
+                    class="h-10 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                </label>
+                <label class="flex flex-col gap-1 text-xs font-medium text-muted">
+                  <span>Price (₦)</span>
+                  <input id="exam-card-price" type="number" min="0" value="1000"
+                    class="h-10 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                </label>
+                <div class="sm:col-span-2">
+                  <button type="submit" class="inline-flex h-10 items-center justify-center rounded-input bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+                    Generate Cards
+                  </button>
+                  <p id="exam-card-feedback" class="mt-3 hidden text-sm text-muted" role="status" aria-live="polite"></p>
+                </div>
+              </form>
+              <div id="exam-card-empty" class="mt-4 text-sm text-muted">
+                No scratch cards are available.
+              </div>
+              <div id="exam-card-table" class="mt-4 hidden min-w-0">
+                <div class="max-w-full overflow-x-auto">
+                  <table class="w-full min-w-72 border-collapse text-left">
+                    <caption class="sr-only">Result scratch cards</caption>
+                    <thead class="bg-bg text-xs font-semibold uppercase tracking-wide text-muted">
+                      <tr>
+                        <th scope="col" class="px-4 py-3">PIN</th>
+                        <th scope="col" class="px-4 py-3">Serial</th>
+                        <th scope="col" class="px-4 py-3">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="exam-card-rows" class="divide-y divide-border"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="mt-4 overflow-hidden rounded-card border border-border bg-card shadow-sm transition-colors" aria-labelledby="student-result-heading">
+          <div class="border-b border-border p-4 sm:p-5">
+            <h2 id="student-result-heading" class="text-base font-semibold text-text">Student Result Check</h2>
+          </div>
+          <div class="p-4 sm:p-5">
+            <form id="exam-result-form" class="grid gap-3 sm:grid-cols-2">
+              <label class="flex flex-col gap-1 text-xs font-medium text-muted">
+                <span>Reg. Number</span>
+                <input id="exam-result-reg" type="text" placeholder="STU-0001"
+                  class="h-10 rounded-input border border-border bg-bg px-3 text-sm text-text placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+              </label>
+              <label class="flex flex-col gap-1 text-xs font-medium text-muted">
+                <span>Scratch PIN</span>
+                <input id="exam-result-pin" type="text" placeholder="Enter PIN"
+                  class="h-10 rounded-input border border-border bg-bg px-3 text-sm text-text placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+              </label>
+              <div class="sm:col-span-2">
+                <button type="submit" class="inline-flex h-10 items-center justify-center rounded-input bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+                  Check Result
+                </button>
+                <p id="exam-result-feedback" class="mt-3 hidden text-sm text-muted" role="status" aria-live="polite"></p>
+              </div>
+            </form>
+          </div>
+        </section>
+      </div>
+    </section>
+    <div id="site-footer"></div>
+  </main>
+
+  <script src="../../js/footer.js"></script>
+  <script src="../../js/admin-layout.js"></script>
+  <script src="../../js/admin-examinations.js"></script>
+</body>
+</html>

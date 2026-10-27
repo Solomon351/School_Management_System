@@ -270,6 +270,7 @@ const API_BASE = 'http://localhost:5000/api/v1';
     const actions = `
       <div class="flex items-center gap-2 whitespace-nowrap">
         ${kind === 'students' ? `<a href="./student-profile.html?id=${encodedId}" class="rounded-input px-2.5 py-1.5 text-xs font-semibold text-primary hover:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">View</a>` : ''}
+        ${kind === 'teachers' ? `<a href="./teacher-profile.html?id=${encodedId}${demoMode ? '&demo=1' : ''}" class="rounded-input px-2.5 py-1.5 text-xs font-semibold text-primary hover:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">View</a>` : ''}
         <a href="./add-${kind.slice(0, -1)}.html?id=${encodedId}" class="rounded-input px-2.5 py-1.5 text-xs font-semibold text-text hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Edit</a>
         <button type="button" data-status-id="${escapeHtml(id || '')}" data-status-index="${index}"
           class="rounded-input px-2.5 py-1.5 text-xs font-semibold ${isActive(record) ? 'text-danger hover:bg-danger/10 focus-visible:outline-danger' : 'text-success hover:bg-success/10 focus-visible:outline-success'} focus-visible:outline-2 focus-visible:outline-offset-2">

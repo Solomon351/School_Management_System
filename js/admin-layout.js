@@ -53,6 +53,12 @@
       throw new Error('Admin layout requires #admin-sidebar and #admin-header containers.');
     }
 
+    const pageContent = document.querySelector('main > section');
+    if (pageContent) {
+      pageContent.classList.add('admin-page-content', 'admin-motion-content');
+      initializeAdminMotion(pageContent);
+    }
+
     const activePage = currentPage();
     sidebarContainer.innerHTML = `
       <aside id="admin-sidebar-panel"
@@ -126,13 +132,16 @@
     const overlay = document.createElement('button');
     overlay.type = 'button';
     overlay.id = 'admin-sidebar-overlay';
-    overlay.className = 'fixed inset-0 z-30 hidden bg-navy/70';
+    overlay.className = 'admin-sidebar-overlay fixed inset-0 z-30 bg-navy/70';
     overlay.setAttribute('aria-label', 'Close navigation menu');
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.tabIndex = -1;
     document.body.append(overlay);
 
     function setDrawerOpen(open) {
       sidebar.classList.toggle('max-[760px]:translate-x-0', open);
-      overlay.classList.toggle('hidden', !open);
+      overlay.classList.toggle('is-open', open);
+      overlay.setAttribute('aria-hidden', String(!open));
       menuButton.setAttribute('aria-expanded', String(open));
       menuButton.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
       document.body.classList.toggle('overflow-hidden', open);
@@ -148,6 +157,73 @@
     sidebar.querySelectorAll('nav a').forEach((link) => {
       link.addEventListener('click', () => setDrawerOpen(false));
     });
+  }
+
+  function initializeAdminMotion(pageContent) {
+    const motionItemSelector = 'article, [class~="rounded-card"]';
+    const addMotion = (elements, className) => {
+      elements.forEach((element, index) => {
+        element.classList.add(className);
+        element.style.setProperty('--admin-motion-delay', `${index < 8 ? index * 35 : 0}ms`);
+      });
+    };
+
+    addMotion([...pageContent.querySelectorAll(motionItemSelector)], 'admin-motion-item');
+    pageContent.querySelectorAll('tbody, [data-dashboard-activity]').forEach((list) => {
+      addMotion([...list.children].filter((item) => item.matches('tr, li')), 'admin-motion-row');
+    });
+    pageContent.querySelectorAll('dialog').forEach((dialog) => {
+      dialog.classList.add('admin-motion-dialog');
+    });
+
+    document.addEventListener('click', (event) => {
+      const target = event.target instanceof Element ? event.target : null;
+      const tabButton = target && target.closest('[data-tab]');
+      if (tabButton) {
+        window.requestAnimationFrame(() => {
+          const activePanel = [...pageContent.querySelectorAll('.panel')]
+            .find((panel) => !panel.classList.contains('hidden'));
+          if (activePanel) {
+            activePanel.classList.remove('admin-motion-panel');
+            window.requestAnimationFrame(() => activePanel.classList.add('admin-motion-panel'));
+          }
+        });
+      }
+
+      const dialogTrigger = target && target.closest('[aria-controls]');
+      const dialogId = dialogTrigger && dialogTrigger.getAttribute('aria-controls');
+      const controlledDialog = dialogId && document.getElementById(dialogId);
+      if (controlledDialog && controlledDialog.tagName === 'DIALOG') {
+        controlledDialog.classList.add('admin-motion-dialog');
+      }
+    });
+
+    const observer = new MutationObserver((mutations) => {
+      const addedEntries = new Map();
+      const addedItems = new Set();
+      const collectEntry = (entry) => {
+        const list = entry.parentElement;
+        if (!list || !list.matches('tbody, [data-dashboard-activity]')) return;
+        if (!addedEntries.has(list)) addedEntries.set(list, []);
+        addedEntries.get(list).push(entry);
+      };
+
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (!(node instanceof Element)) return;
+          if (node.matches('tr, li')) collectEntry(node);
+          node.querySelectorAll('tbody tr, [data-dashboard-activity] > li').forEach(collectEntry);
+          if (node.matches(motionItemSelector)) addedItems.add(node);
+          node.querySelectorAll(motionItemSelector).forEach((item) => addedItems.add(item));
+          node.querySelectorAll('dialog').forEach((dialog) => dialog.classList.add('admin-motion-dialog'));
+        });
+      });
+
+      addedEntries.forEach((entries) => addMotion(entries, 'admin-motion-row'));
+      addMotion([...addedItems], 'admin-motion-item');
+    });
+
+    observer.observe(pageContent, { childList: true, subtree: true });
   }
 
   if (document.readyState === 'loading') {

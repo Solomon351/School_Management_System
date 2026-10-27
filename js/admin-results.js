@@ -67,14 +67,21 @@
     feedback.classList.add('hidden');
     resultsContent.classList.add('hidden');
     placeholder.classList.remove('hidden');
+    rowsContainer.innerHTML = '';
+    summary.textContent = '';
 
     if (!serialInput.value.trim() || !pinInput.value.trim()) {
-      placeholder.textContent = 'Enter your serial number and scratch card PIN to check your result.';
+      placeholder.textContent = 'Enter your serial number and PIN to check your result.';
       return;
     }
 
     if (!demoMode || results.length === 0) {
       placeholder.textContent = 'No result data is available. Result data will appear here when it is provided.';
+      return;
+    }
+
+    if (serialInput.value.trim().toUpperCase() !== 'SC001') {
+      placeholder.textContent = 'Invalid serial number or PIN. Please check your details and try again.';
       return;
     }
 

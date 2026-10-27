@@ -208,3 +208,200 @@ p[id$="-error"]:not(.hidden),
     opacity: 1 !important;
   }
 }
+
+/* ==========================================================================
+   Shared Admin Area Motion
+   ========================================================================== */
+
+@keyframes admin-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes admin-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes admin-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .admin-motion-content {
+    animation: admin-fade-up 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .admin-motion-item,
+  .admin-motion-row,
+  .admin-motion-panel {
+    animation: admin-fade-in 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .admin-motion-item,
+  .admin-motion-row {
+    animation-delay: var(--admin-motion-delay, 0ms);
+  }
+
+  .admin-motion-content button,
+  .admin-motion-content a,
+  #admin-sidebar-panel nav a,
+  #admin-header button,
+  .admin-page-content details > summary,
+  .admin-motion-item,
+  .admin-motion-row,
+  .admin-sidebar-overlay {
+    transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .admin-motion-content button:hover:not(:disabled),
+  .admin-motion-content a:hover,
+  .admin-page-content details > summary:hover,
+  #admin-sidebar-panel nav a:hover,
+  #admin-header button:hover:not(:disabled),
+  .admin-motion-item:hover,
+  .admin-motion-row:hover {
+    transform: translateY(-1px);
+  }
+
+  .admin-motion-content button:active:not(:disabled),
+  .admin-motion-content a:active,
+  .admin-page-content details > summary:active,
+  #admin-sidebar-panel nav a:active,
+  #admin-header button:active:not(:disabled),
+  .admin-motion-item:active,
+  .admin-motion-row:active {
+    transform: scale(0.99);
+  }
+
+  .admin-page-content [role="alert"]:not(.hidden),
+  .admin-page-content [id$="-error"]:not(.hidden),
+  .admin-page-content [id$="-feedback"]:not(.hidden) {
+    animation: admin-fade-in 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .admin-page-content details::details-content {
+    content-visibility: hidden;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: content-visibility 180ms allow-discrete, opacity 180ms ease,
+                transform 180ms ease;
+    transition-behavior: allow-discrete;
+  }
+
+  .admin-page-content details[open]::details-content {
+    content-visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @starting-style {
+    .admin-page-content details[open]::details-content {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+
+  dialog.admin-motion-dialog {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+    transition: opacity 200ms ease, transform 200ms ease, display 200ms allow-discrete,
+                overlay 200ms allow-discrete;
+    transition-behavior: allow-discrete;
+  }
+
+  dialog.admin-motion-dialog[open] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  dialog.admin-motion-dialog::backdrop {
+    background-color: color-mix(in srgb, var(--color-navy) 70%, transparent);
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  dialog.admin-motion-dialog[open]::backdrop {
+    opacity: 1;
+  }
+
+  @starting-style {
+    dialog.admin-motion-dialog[open] {
+      opacity: 0;
+      transform: translateY(8px) scale(0.99);
+    }
+
+    dialog.admin-motion-dialog[open]::backdrop {
+      opacity: 0;
+    }
+  }
+}
+
+.admin-sidebar-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.admin-sidebar-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.admin-page-content #list-loading::before {
+  display: inline-block;
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-right: 0.5rem;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 9999px;
+  content: "";
+  vertical-align: -0.1rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .admin-page-content #list-loading::before {
+    animation: admin-spin 400ms linear infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-motion-content,
+  .admin-motion-item,
+  .admin-motion-row,
+  .admin-motion-panel,
+  .admin-page-content [role="alert"]:not(.hidden),
+  .admin-page-content [id$="-error"]:not(.hidden),
+  .admin-page-content [id$="-feedback"]:not(.hidden),
+  .admin-page-content #list-loading::before {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .admin-sidebar-overlay {
+    transition: none !important;
+  }
+
+  .admin-page-content details::details-content {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

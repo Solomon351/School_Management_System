@@ -42,7 +42,8 @@
 
   function currentPage() {
     const filename = window.location.pathname.split('/').pop() || 'dashboard.html';
-    return filename.replace(/\.html$/i, '').toLowerCase();
+    const page = filename.replace(/\.html$/i, '').toLowerCase();
+    return page === 'grading-settings' ? 'settings' : page;
   }
 
   function injectLayout() {

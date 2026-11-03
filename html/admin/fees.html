@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Fees & Payments – Educanize School Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/output.css">
+</head>
+<body class="flex min-h-screen bg-bg font-sans text-text antialiased transition-colors">
+  <div id="admin-sidebar"></div>
+
+  <main class="flex min-h-screen min-w-0 flex-1 flex-col">
+    <div id="admin-header"></div>
+    <section class="min-w-0 flex-1 px-4 py-5 sm:px-6 lg:px-8 admin-page-content">
+      <div class="mx-auto w-full max-w-7xl admin-motion-content">
+        <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 class="text-2xl font-bold tracking-tight text-text">Fees & Payments</h1>
+            <p class="mt-1 text-sm text-muted">Collect and track school fees</p>
+          </div>
+          <a id="record-payment-btn" href="./add-payment.html" class="inline-flex h-10 items-center justify-center rounded-input bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+            Collect Fees
+          </a>
+        </div>
+
+        <div class="mb-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="overflow-hidden rounded-card border border-border bg-card p-5 shadow-sm transition-colors admin-motion-item" style="--admin-motion-delay: 0ms">
+            <div class="flex items-start gap-4">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-success/10 text-2xl">💰</div>
+              <div class="flex-1">
+                <p class="text-sm text-muted">Collected</p>
+                <p class="mt-1 text-2xl font-bold text-text" id="stat-collected">₦0</p>
+                <p class="mt-1 text-xs text-success" id="stat-collected-trend">—</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="overflow-hidden rounded-card border border-border bg-card p-5 shadow-sm transition-colors admin-motion-item" style="--admin-motion-delay: 40ms">
+            <div class="flex items-start gap-4">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-warning/10 text-2xl">⏳</div>
+              <div class="flex-1">
+                <p class="text-sm text-muted">Unpaid</p>
+                <p class="mt-1 text-2xl font-bold text-text" id="stat-unpaid">₦0</p>
+                <p class="mt-1 text-xs text-muted" id="stat-unpaid-count">0 students</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="overflow-hidden rounded-card border border-border bg-card p-5 shadow-sm transition-colors admin-motion-item" style="--admin-motion-delay: 80ms">
+            <div class="flex items-start gap-4">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-danger/10 text-2xl">⚠️</div>
+              <div class="flex-1">
+                <p class="text-sm text-muted">Overdue</p>
+                <p class="mt-1 text-2xl font-bold text-text" id="stat-overdue">₦0</p>
+                <p class="mt-1 text-xs text-muted" id="stat-overdue-count">0 students</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="overflow-hidden rounded-card border border-border bg-card p-5 shadow-sm transition-colors admin-motion-item" style="--admin-motion-delay: 120ms">
+            <div class="flex items-start gap-4">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-2xl">📉</div>
+              <div class="flex-1">
+                <p class="text-sm text-muted">Total arrears</p>
+                <p class="mt-1 text-2xl font-bold text-text" id="stat-arrears">₦0</p>
+                <p class="mt-1 text-xs text-muted" id="stat-arrears-count">0 students</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-card border border-border bg-card shadow-sm transition-colors admin-motion-item" style="--admin-motion-delay: 160ms">
+          <div class="flex flex-col gap-3 border-b border-border p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+            <label class="relative block w-full sm:max-w-sm">
+              <span class="sr-only">Search transactions</span>
+              <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted" aria-hidden="true">
+                <svg class="h-4 w-4 shrink-0 text-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+              </span>
+              <input id="list-search" type="search" placeholder="Search transactions..." aria-label="Search transactions" class="h-10 w-full rounded-input border border-border bg-bg pl-9 pr-9 text-sm text-text placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+            </label>
+            <div class="flex flex-wrap items-center gap-3">
+              <label class="flex items-center gap-2 text-sm text-muted">
+                <span>Status</span>
+                <select id="list-status" aria-label="Filter by status" class="h-10 min-w-32 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                  <option value="all">All</option>
+                  <option value="paid">Paid</option>
+                  <option value="unpaid">Unpaid</option>
+                  <option value="partial">Partial</option>
+                  <option value="overdue">Overdue</option>
+                </select>
+              </label>
+              <label class="flex items-center gap-2 text-sm text-muted">
+                <span>Session</span>
+                <select id="list-session" aria-label="Filter by session" class="h-10 min-w-32 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                  <option value="all">All sessions</option>
+                  <option value="2026/2027" selected>2026/2027</option>
+                  <option value="2025/2026">2025/2026</option>
+                  <option value="2024/2025">2024/2025</option>
+                  <option value="2023/2024">2023/2024</option>
+                </select>
+              </label>
+              <label class="flex items-center gap-2 text-sm text-muted">
+                <span>Term</span>
+                <select id="list-term" aria-label="Filter by term" class="h-10 min-w-32 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                  <option value="all">All terms</option>
+                  <option value="First" selected>First</option>
+                  <option value="Second">Second</option>
+                  <option value="Third">Third</option>
+                </select>
+              </label>
+              <label class="flex items-center gap-2 text-sm text-muted">
+                <span>Class</span>
+                <select id="list-class" aria-label="Filter by class" class="h-10 min-w-32 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                  <option value="all">All classes</option>
+                </select>
+              </label>
+              <label class="flex items-center gap-2 text-sm text-muted">
+                <span>Method</span>
+                <select id="list-method" aria-label="Filter by payment method" class="h-10 min-w-32 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                  <option value="all">All</option>
+                  <option value="card">Card</option>
+                  <option value="transfer">Bank Transfer</option>
+                  <option value="cash">Cash</option>
+                  <option value="pos">POS</option>
+                  <option value="ussd">USSD</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="p-5 text-sm text-muted" id="list-loading" role="status" aria-live="polite">Loading transactions...</div>
+          <div class="hidden p-5 text-sm text-danger" id="list-error" role="alert"></div>
+          <div class="hidden p-5 text-sm text-muted" id="list-empty" role="status"></div>
+
+          <div class="hidden min-w-0" id="list-table">
+            <div class="max-w-full overflow-x-auto">
+              <table class="w-full min-w-[820px] border-collapse text-left">
+                <caption class="sr-only">Fee transactions</caption>
+                <thead class="bg-bg text-xs font-semibold uppercase tracking-wide text-muted">
+                  <tr>
+                    <th scope="col" class="px-4 py-3">Receipt</th>
+                    <th scope="col" class="px-4 py-3">Student</th>
+                    <th scope="col" class="px-4 py-3">Class</th>
+                    <th scope="col" class="px-4 py-3">Session</th>
+                    <th scope="col" class="px-4 py-3">Term</th>
+                    <th scope="col" class="px-4 py-3">Amount</th>
+                    <th scope="col" class="px-4 py-3">Method</th>
+                    <th scope="col" class="px-4 py-3">Status</th>
+                    <th scope="col" class="px-4 py-3">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="list-rows"></tbody>
+              </table>
+            </div>
+            <div id="list-pagination" class="hidden flex-col gap-3 border-t border-border px-4 py-3 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+              <p id="list-page-info" aria-live="polite"></p>
+              <div class="flex gap-2">
+                <button id="list-previous" type="button" class="rounded-input border border-border px-3 py-2 font-medium text-text hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-50">Previous</button>
+                <button id="list-next" type="button" class="rounded-input border border-border px-3 py-2 font-medium text-text hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-50">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 overflow-hidden rounded-card border border-border bg-card shadow-sm transition-colors admin-motion-item" style="--admin-motion-delay: 200ms">
+          <div class="flex flex-col gap-3 border-b border-border p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+            <div>
+              <h2 class="text-lg font-semibold text-text">Outstanding balances</h2>
+            </div>
+            <label class="flex items-center gap-2 text-sm text-muted">
+              <span>Filter</span>
+              <select id="arrears-filter" aria-label="Filter outstanding balances" class="h-10 min-w-44 rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <option value="all">All students</option>
+                <option value="previous">Owing from previous sessions</option>
+              </select>
+            </label>
+          </div>
+          <div class="max-w-full overflow-x-auto">
+            <table class="w-full min-w-[820px] border-collapse text-left">
+              <thead class="bg-bg text-xs font-semibold uppercase tracking-wide text-muted">
+                <tr>
+                  <th scope="col" class="px-4 py-3">Student</th>
+                  <th scope="col" class="px-4 py-3">Class</th>
+                  <th scope="col" class="px-4 py-3">Arrears</th>
+                  <th scope="col" class="px-4 py-3">This term</th>
+                  <th scope="col" class="px-4 py-3">Total owed</th>
+                  <th scope="col" class="px-4 py-3">Oldest unpaid</th>
+                  <th scope="col" class="px-4 py-3">Action</th>
+                </tr>
+              </thead>
+              <tbody id="arrears-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div id="site-footer"></div>
+  </main>
+
+  <script src="../../js/footer.js"></script>
+  <script src="../../js/admin-layout.js"></script>
+  <script src="../../js/fees-demo-data.js"></script>
+  <script src="../../js/admin-fees.js"></script>
+</body>
+</html>

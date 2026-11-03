@@ -1,4 +1,25 @@
 (function () {
+  function loadAdminAnimationStylesheet() {
+    const existingStylesheet = document.querySelector('link[data-adm-animations]');
+    if (existingStylesheet) return existingStylesheet;
+
+    const outputStylesheet = document.querySelector('link[rel="stylesheet"][href$="output.css"]');
+    if (!outputStylesheet) {
+      console.error('Admin animations could not load because the output.css stylesheet link is missing.');
+      return null;
+    }
+
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = new URL('./animations.css', outputStylesheet.href).href;
+    stylesheet.dataset.admAnimations = 'true';
+    stylesheet.addEventListener('load', () => {
+      stylesheet.dataset.loaded = 'true';
+    }, { once: true });
+    document.head.append(stylesheet);
+    return stylesheet;
+  }
+
   const navigationItems = [
     ['Dashboard', 'dashboard', '<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-6h-4v6H4a1 1 0 0 1-1-1z"/>'],
     ['Students', 'students', '<path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>'],
@@ -8,7 +29,7 @@
     ['Attendance', 'attendance', '<path d="m9 11 3 3L22 4"/><path d="M20 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h11"/>'],
     ['Examinations', 'examinations', '<path d="M8 4h8l4 4v12H4V4h4Z"/><path d="M8 4v5h8V4M8 14h8M8 17h5"/>'],
     ['Assignments', 'assignments', '<path d="M8 6h13v14H3V6h5Z"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 11h18M10 15h4"/>'],
-    ['Fees & Payments', 'fees-payments', '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h3"/>'],
+    ['Fees & Payments', 'fees', '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h3"/>'],
     ['Timetable', 'timetable', '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h2M14 14h2M8 17h2"/>'],
     ['Reports', 'reports', '<path d="M3 3v18h18M8 16v-5M13 16V7M18 16v-8"/>'],
     ['Notices', 'notices', '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/>'],
@@ -42,10 +63,29 @@
 
   function currentPage() {
     const filename = window.location.pathname.split('/').pop() || 'dashboard.html';
-    return filename.replace(/\.html$/i, '').toLowerCase();
+    const pageName = filename.replace(/\.html$/i, '').toLowerCase();
+
+    if (pageName === 'add-payment' || pageName === 'payment-details') {
+      return 'fees';
+    }
+
+    return pageName;
+  }
+
+  function removeLegacyMotion(element) {
+    element.classList.remove(
+      'admin-page-content',
+      'admin-motion-content',
+      'admin-motion-item',
+      'admin-motion-row',
+      'admin-motion-panel',
+      'admin-motion-dialog'
+    );
+    element.style.removeProperty('--admin-motion-delay');
   }
 
   function injectLayout() {
+    const animationStylesheet = loadAdminAnimationStylesheet();
     const sidebarContainer = document.getElementById('admin-sidebar');
     const headerContainer = document.getElementById('admin-header');
 
@@ -55,16 +95,30 @@
 
     const pageContent = document.querySelector('main > section');
     if (pageContent) {
-      pageContent.classList.add('admin-page-content', 'admin-motion-content');
-      initializeAdminMotion(pageContent);
+      removeLegacyMotion(pageContent);
+      pageContent.classList.add('adm-page-content', 'adm-motion-content');
+      pageContent.querySelectorAll(
+        '.admin-page-content, .admin-motion-content, .admin-motion-item, .admin-motion-row, .admin-motion-panel, .admin-motion-dialog'
+      ).forEach(removeLegacyMotion);
+
+      if (animationStylesheet) {
+        const initializeMotion = () => initializeAdminMotion(pageContent);
+        if (animationStylesheet.dataset.loaded === 'true') {
+          initializeMotion();
+        } else {
+          animationStylesheet.addEventListener('load', initializeMotion, { once: true });
+          animationStylesheet.addEventListener('error', () => {
+            console.error('Admin animations stylesheet failed to load.');
+          }, { once: true });
+        }
+      }
     }
 
     const activePage = currentPage();
     sidebarContainer.innerHTML = `
       <aside id="admin-sidebar-panel"
-        class="sticky top-0 z-40 h-screen w-57.5 shrink-0 overflow-y-auto bg-navy px-3 py-4 text-white/80
-          max-[760px]:fixed max-[760px]:inset-y-0 max-[760px]:left-0 max-[760px]:-translate-x-full
-          max-[760px]:transition-transform max-[760px]:duration-200"
+        class="adm-sidebar-panel sticky top-0 z-40 h-screen w-57.5 shrink-0 overflow-y-auto bg-navy px-3 py-4 text-white/80
+          max-[760px]:fixed max-[760px]:inset-y-0 max-[760px]:left-0"
         aria-label="Admin navigation">
         <a href="./dashboard.html" class="mb-5 flex items-center gap-2 px-2 py-2 text-xl font-extrabold tracking-tight text-white">
           <span aria-hidden="true" class="text-2xl">🎓</span>
@@ -132,15 +186,19 @@
     const overlay = document.createElement('button');
     overlay.type = 'button';
     overlay.id = 'admin-sidebar-overlay';
-    overlay.className = 'admin-sidebar-overlay fixed inset-0 z-30 bg-navy/70';
+    overlay.className = 'adm-sidebar-overlay fixed inset-0 z-30 bg-navy/70';
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
     overlay.setAttribute('aria-label', 'Close navigation menu');
     overlay.setAttribute('aria-hidden', 'true');
     overlay.tabIndex = -1;
     document.body.append(overlay);
 
     function setDrawerOpen(open) {
-      sidebar.classList.toggle('max-[760px]:translate-x-0', open);
+      sidebar.classList.toggle('adm-sidebar-open', open);
       overlay.classList.toggle('is-open', open);
+      overlay.style.opacity = open ? '1' : '0';
+      overlay.style.pointerEvents = open ? 'auto' : 'none';
       overlay.setAttribute('aria-hidden', String(!open));
       menuButton.setAttribute('aria-expanded', String(open));
       menuButton.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
@@ -161,19 +219,87 @@
 
   function initializeAdminMotion(pageContent) {
     const motionItemSelector = 'article, [class~="rounded-card"]';
+    const motionChartSelector = 'canvas, svg[role="img"], [role="progressbar"], [aria-valuenow], progress, [data-chart], [data-progress], [class*="progress"]';
+    const motionFieldSelector = 'input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="hidden"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea';
+    const rootStyles = window.getComputedStyle(document.documentElement);
+    const stagger = Number.parseFloat(rootStyles.getPropertyValue('--adm-stagger'));
+    const staggerLimit = Number.parseInt(rootStyles.getPropertyValue('--adm-stagger-limit'), 10);
     const addMotion = (elements, className) => {
       elements.forEach((element, index) => {
         element.classList.add(className);
-        element.style.setProperty('--admin-motion-delay', `${index < 8 ? index * 35 : 0}ms`);
+        if (className === 'adm-motion-item' || className === 'adm-motion-row') {
+          element.style.setProperty('--adm-delay', `${Math.min(index, staggerLimit) * stagger}ms`);
+        }
       });
     };
 
-    addMotion([...pageContent.querySelectorAll(motionItemSelector)], 'admin-motion-item');
-    pageContent.querySelectorAll('tbody, [data-dashboard-activity]').forEach((list) => {
-      addMotion([...list.children].filter((item) => item.matches('tr, li')), 'admin-motion-row');
+    const motionItems = new Set(pageContent.querySelectorAll(motionItemSelector));
+    pageContent.querySelectorAll('form').forEach((form) => {
+      if (!form.closest('article, [class~="rounded-card"]')) motionItems.add(form);
     });
+    addMotion([...motionItems], 'adm-motion-item');
+    pageContent.querySelectorAll('tbody, [data-dashboard-activity]').forEach((list) => {
+      addMotion([...list.children].filter((item) => item.matches('tr, li')), 'adm-motion-row');
+    });
+    addMotion([...pageContent.querySelectorAll(motionChartSelector)], 'adm-motion-chart');
     pageContent.querySelectorAll('dialog').forEach((dialog) => {
-      dialog.classList.add('admin-motion-dialog');
+      dialog.classList.add('adm-motion-dialog');
+    });
+    pageContent.querySelectorAll('details').forEach((details) => {
+      details.classList.add('adm-motion-dropdown');
+    });
+
+    const initializeFields = (root) => {
+      const fields = root.matches(motionFieldSelector) ? [root] : [];
+      fields.push(...root.querySelectorAll(motionFieldSelector));
+      fields.filter((field) => !field.closest('.adm-field-wrap')).forEach((field) => {
+        const wrapper = document.createElement('span');
+        wrapper.className = 'adm-field-wrap';
+        wrapper.style.setProperty('--adm-field-radius', window.getComputedStyle(field).borderRadius);
+        field.parentNode.insertBefore(wrapper, field);
+        wrapper.append(field);
+
+        const focusRing = document.createElement('span');
+        focusRing.className = 'adm-field-focus-ring';
+        focusRing.setAttribute('aria-hidden', 'true');
+        wrapper.append(focusRing);
+      });
+    };
+    initializeFields(pageContent);
+
+    const refreshVisibleRows = () => {
+      window.requestAnimationFrame(() => {
+        const rows = [...pageContent.querySelectorAll('tbody tr, [data-dashboard-activity] > li')]
+          .filter((row) => !row.classList.contains('hidden') && row.getClientRects().length > 0);
+
+        rows.forEach((row) => {
+          row.classList.remove('adm-list-refresh-row');
+          row.addEventListener('animationend', () => row.classList.remove('adm-list-refresh-row'), { once: true });
+        });
+        window.requestAnimationFrame(() => {
+          addMotion(rows, 'adm-motion-row');
+          rows.forEach((row) => row.classList.add('adm-list-refresh-row'));
+        });
+      });
+    };
+
+    pageContent.addEventListener('focusin', (event) => {
+      const field = event.target instanceof Element ? event.target : null;
+      const wrapper = field && field.closest('.adm-field-wrap');
+      if (wrapper) wrapper.classList.add('is-focused');
+    });
+    pageContent.addEventListener('focusout', (event) => {
+      const field = event.target instanceof Element ? event.target : null;
+      const wrapper = field && field.closest('.adm-field-wrap');
+      if (wrapper) wrapper.classList.remove('is-focused');
+    });
+    pageContent.addEventListener('input', (event) => {
+      const target = event.target instanceof Element ? event.target : null;
+      if (target && target.matches('input[type="search"]')) refreshVisibleRows();
+    });
+    pageContent.addEventListener('change', (event) => {
+      const target = event.target instanceof Element ? event.target : null;
+      if (target && target.matches('select, input[type="date"]')) refreshVisibleRows();
     });
 
     document.addEventListener('click', (event) => {
@@ -184,9 +310,10 @@
           const activePanel = [...pageContent.querySelectorAll('.panel')]
             .find((panel) => !panel.classList.contains('hidden'));
           if (activePanel) {
-            activePanel.classList.remove('admin-motion-panel');
-            window.requestAnimationFrame(() => activePanel.classList.add('admin-motion-panel'));
+            activePanel.classList.remove('adm-motion-panel');
+            window.requestAnimationFrame(() => activePanel.classList.add('adm-motion-panel'));
           }
+          refreshVisibleRows();
         });
       }
 
@@ -194,7 +321,7 @@
       const dialogId = dialogTrigger && dialogTrigger.getAttribute('aria-controls');
       const controlledDialog = dialogId && document.getElementById(dialogId);
       if (controlledDialog && controlledDialog.tagName === 'DIALOG') {
-        controlledDialog.classList.add('admin-motion-dialog');
+        controlledDialog.classList.add('adm-motion-dialog');
       }
     });
 
@@ -211,16 +338,31 @@
       mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {
           if (!(node instanceof Element)) return;
+          removeLegacyMotion(node);
+          node.querySelectorAll(
+            '.admin-page-content, .admin-motion-content, .admin-motion-item, .admin-motion-row, .admin-motion-panel, .admin-motion-dialog'
+          ).forEach(removeLegacyMotion);
+          initializeFields(node);
           if (node.matches('tr, li')) collectEntry(node);
           node.querySelectorAll('tbody tr, [data-dashboard-activity] > li').forEach(collectEntry);
           if (node.matches(motionItemSelector)) addedItems.add(node);
           node.querySelectorAll(motionItemSelector).forEach((item) => addedItems.add(item));
-          node.querySelectorAll('dialog').forEach((dialog) => dialog.classList.add('admin-motion-dialog'));
+          if (node.matches(motionChartSelector)) addedItems.add(node);
+          node.querySelectorAll(motionChartSelector).forEach((chart) => addedItems.add(chart));
+          if (node.matches('form') && !node.closest('article, [class~="rounded-card"]')) addedItems.add(node);
+          node.querySelectorAll('form').forEach((form) => {
+            if (!form.closest('article, [class~="rounded-card"]')) addedItems.add(form);
+          });
+          if (node.matches('details')) node.classList.add('adm-motion-dropdown');
+          node.querySelectorAll('details').forEach((details) => details.classList.add('adm-motion-dropdown'));
+          if (node.matches('dialog')) node.classList.add('adm-motion-dialog');
+          node.querySelectorAll('dialog').forEach((dialog) => dialog.classList.add('adm-motion-dialog'));
         });
       });
 
-      addedEntries.forEach((entries) => addMotion(entries, 'admin-motion-row'));
-      addMotion([...addedItems], 'admin-motion-item');
+      addedEntries.forEach((entries) => addMotion(entries, 'adm-motion-row'));
+      addMotion([...addedItems].filter((item) => item.matches(motionChartSelector)), 'adm-motion-chart');
+      addMotion([...addedItems].filter((item) => !item.matches(motionChartSelector)), 'adm-motion-item');
     });
 
     observer.observe(pageContent, { childList: true, subtree: true });

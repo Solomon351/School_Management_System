@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Score Entry – Educanize School Management</title>
+  <link rel="stylesheet" href="../../css/output.css">
+</head>
+<body class="flex min-h-screen bg-bg font-sans text-text antialiased transition-colors">
+  <div id="admin-sidebar"></div>
+
+  <main class="flex min-h-screen min-w-0 flex-1 flex-col">
+    <div id="admin-header"></div>
+    <section class="min-w-0 flex-1 px-4 py-5 sm:px-6 lg:px-8">
+      <div class="mx-auto w-full max-w-7xl">
+        <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 class="text-2xl font-bold tracking-tight text-text">Score Entry</h1>
+            <p class="mt-1 text-sm text-muted">Enter raw scores to calculate results</p>
+          </div>
+          <div class="flex min-w-0 flex-wrap items-center justify-end gap-2">
+            <label id="viewing-as-wrap" class="hidden flex-wrap items-center gap-2 text-xs font-medium text-muted">
+              <span>Viewing as</span>
+              <select id="viewing-as" class="h-9 min-w-36 rounded-input border border-border bg-card px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <option value="admin">Admin</option>
+              </select>
+            </label>
+            <span id="score-status" class="inline-flex items-center rounded-full bg-muted/10 px-3 py-1 text-sm font-semibold text-muted" role="status">Draft</span>
+            <span id="submitted-by" class="hidden text-xs text-muted"></span>
+            <button id="save-draft" type="button" class="inline-flex h-10 items-center justify-center rounded-input border border-border bg-card px-4 text-sm font-semibold text-text transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-50">
+              Save draft
+            </button>
+            <button id="submit-scores" type="button" class="inline-flex h-10 items-center justify-center rounded-input bg-primary px-4 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-50">
+              Submit scores
+            </button>
+            <button id="publish-results" type="button" class="hidden inline-flex h-10 items-center justify-center rounded-input bg-success px-4 text-sm font-semibold text-white transition-colors hover:bg-success/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-50">
+              Publish results
+            </button>
+            <button id="reopen-scores" type="button" class="hidden inline-flex h-10 items-center justify-center rounded-input border border-border bg-card px-4 text-sm font-semibold text-text transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-50">
+              Reopen
+            </button>
+          </div>
+        </div>
+        <p id="score-action-hint" class="mb-4 text-xs text-muted" aria-live="polite"></p>
+
+        <div id="score-demo-empty" class="hidden rounded-card border border-border bg-card p-6 text-sm text-muted shadow-sm" role="status" aria-live="polite">
+          No score-entry data is available. Add ?demo=1 to view the sample classes and scores.
+        </div>
+        <div id="score-message" class="mb-4 hidden rounded-input border px-4 py-3 text-sm" role="status" aria-live="polite"></div>
+
+        <div id="score-entry-content" class="space-y-5">
+          <section class="rounded-card border border-border bg-card p-4 shadow-sm transition-colors sm:p-5 admin-motion-item" aria-label="Score entry selection">
+            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <label class="flex min-w-0 flex-col gap-1 text-xs font-medium text-muted">
+                <span>Session</span>
+                <select id="score-session" class="h-10 w-full rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                  <option value="2026/2027" selected>2026/2027</option>
+                  <option value="2025/2026">2025/2026</option>
+                  <option value="2024/2025">2024/2025</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-col gap-1 text-xs font-medium text-muted">
+                <span>Term</span>
+                <select id="score-term" class="h-10 w-full rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                  <option value="First" selected>First</option>
+                  <option value="Second">Second</option>
+                  <option value="Third">Third</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-col gap-1 text-xs font-medium text-muted">
+                <span>Class</span>
+                <select id="score-class" class="h-10 w-full rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                  <option value="">Select class</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-col gap-1 text-xs font-medium text-muted">
+                <span>Subject</span>
+                <select id="score-subject" class="h-10 w-full rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" disabled>
+                  <option value="">Select subject</option>
+                </select>
+              </label>
+            </div>
+            <p id="grading-rules-note" class="mt-4 rounded-input bg-bg px-3 py-2 text-xs text-muted" aria-live="polite">Grading rules in use: —</p>
+            <p id="teacher-role-note" class="mt-2 hidden rounded-input bg-primary/10 px-3 py-2 text-xs text-primary">You can enter scores for your own subjects only.</p>
+          </section>
+
+          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            <article class="rounded-card border border-border bg-card p-4 shadow-sm transition-colors admin-motion-item">
+              <p class="text-xs font-medium text-muted">Class average</p>
+              <p id="stat-average" class="mt-1 text-xl font-bold text-text">—</p>
+            </article>
+            <article class="rounded-card border border-border bg-card p-4 shadow-sm transition-colors admin-motion-item">
+              <p class="text-xs font-medium text-muted">Highest</p>
+              <p id="stat-highest" class="mt-1 text-xl font-bold text-text">—</p>
+            </article>
+            <article class="rounded-card border border-border bg-card p-4 shadow-sm transition-colors admin-motion-item">
+              <p class="text-xs font-medium text-muted">Lowest</p>
+              <p id="stat-lowest" class="mt-1 text-xl font-bold text-text">—</p>
+            </article>
+            <article class="rounded-card border border-border bg-card p-4 shadow-sm transition-colors admin-motion-item">
+              <p class="text-xs font-medium text-muted">Passed / Failed</p>
+              <p class="mt-1 text-xl font-bold text-text"><span id="stat-passed">0</span> <span class="text-muted">/</span> <span id="stat-failed">0</span></p>
+            </article>
+            <article class="rounded-card border border-border bg-card p-4 shadow-sm transition-colors admin-motion-item">
+              <p class="text-xs font-medium text-muted">Scores entered</p>
+              <p id="stat-entered" class="mt-1 text-xl font-bold text-text">0 of 0 students</p>
+            </article>
+          </div>
+
+          <section class="grid gap-3 rounded-card border border-border bg-card p-4 shadow-sm transition-colors sm:grid-cols-2 lg:grid-cols-4 admin-motion-item" aria-label="Score entry information">
+            <div>
+              <p class="text-xs font-medium text-muted">Subject teacher</p>
+              <p id="subject-teacher" class="mt-1 text-sm font-semibold text-text">—</p>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-muted">Form teacher</p>
+              <p id="form-teacher" class="mt-1 text-sm font-semibold text-text">—</p>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-muted">Entered by</p>
+              <p id="entered-by" class="mt-1 text-sm font-semibold text-text">—</p>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-muted">Last updated</p>
+              <p id="last-updated" class="mt-1 text-sm font-semibold text-text">—</p>
+            </div>
+          </section>
+
+          <section class="overflow-hidden rounded-card border border-border bg-card shadow-sm transition-colors admin-motion-item" aria-labelledby="student-scores-heading">
+            <div class="flex flex-col gap-2 border-b border-border p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+              <div>
+                <h2 id="student-scores-heading" class="text-base font-semibold text-text">Student Scores</h2>
+                <p class="mt-1 text-xs text-muted">Enter a score from 0 to the maximum shown for each part. Leave blank if not entered.</p>
+              </div>
+              <p id="published-note" class="text-xs text-muted">Published results cannot be changed. Contact the admin to reopen.</p>
+            </div>
+            <div id="scores-empty" class="p-5 text-sm text-muted" role="status">Select a class and subject to enter scores.</div>
+            <div id="scores-table-wrap" class="hidden max-w-full overflow-x-auto">
+              <table class="w-full min-w-[980px] border-collapse text-left">
+                <caption class="sr-only">Student score entry and calculated results</caption>
+                <thead id="scores-head" class="bg-bg text-xs font-semibold uppercase tracking-wide text-muted"></thead>
+                <tbody id="scores-rows" class="divide-y divide-border"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+    <div id="site-footer"></div>
+  </main>
+
+  <script src="../../js/footer.js"></script>
+  <script src="../../js/admin-layout.js"></script>
+  <script src="../../js/results-demo-data.js"></script>
+  <script src="../../js/results-engine.js"></script>
+  <script src="../../js/admin-score-entry.js"></script>
+</body>
+</html>

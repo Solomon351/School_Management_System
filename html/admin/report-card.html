@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Report Card – Educanize School Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/output.css">
+</head>
+<body class="flex min-h-screen bg-bg font-sans text-text antialiased transition-colors print:bg-white">
+  <div id="admin-sidebar" class="print:hidden"></div>
+
+  <main class="flex min-h-screen min-w-0 flex-1 flex-col">
+    <div id="admin-header" class="print:hidden"></div>
+
+    <section class="min-w-0 flex-1 px-4 py-5 sm:px-6 lg:px-8 print:p-0" data-report-card-page>
+      <div class="mx-auto w-full max-w-6xl">
+        <div class="mb-5 flex flex-wrap items-center justify-between gap-3 print:hidden">
+          <div>
+            <h1 class="text-2xl font-bold tracking-tight text-text">Report Card</h1>
+            <p class="mt-1 text-sm text-muted">Printable student result sheet</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="report-card-print" type="button" class="inline-flex h-10 items-center justify-center rounded-input bg-primary px-4 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+              Print report card
+            </button>
+            <button id="report-card-prev" type="button" class="inline-flex h-10 items-center justify-center rounded-input border border-border bg-card px-4 text-sm font-semibold text-text transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+              Previous student
+            </button>
+            <button id="report-card-next" type="button" class="inline-flex h-10 items-center justify-center rounded-input border border-border bg-card px-4 text-sm font-semibold text-text transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+              Next student
+            </button>
+          </div>
+        </div>
+
+        <div id="report-card-empty" class="hidden rounded-card border border-border bg-card p-6 text-sm text-muted shadow-sm" role="status" aria-live="polite">
+          No student result is available. Add ?demo=1 and a student id to view a sample report card.
+        </div>
+
+        <div id="report-card-content" class="hidden anim-fade-up">
+          <article class="overflow-hidden rounded-card border border-border bg-card shadow-sm print:shadow-none">
+            <header class="border-b border-border bg-bg px-4 py-4 sm:px-6 print:bg-white">
+              <div class="flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-card text-xs font-bold uppercase tracking-[0.2em] text-primary">
+                    EA
+                  </div>
+                  <div>
+                    <p id="report-card-school-name" class="text-lg font-bold text-text">Educanize Academy</p>
+                    <p class="text-xs uppercase tracking-[0.2em] text-muted">Terminal Report Card</p>
+                  </div>
+                </div>
+                <div class="text-right text-xs text-muted">
+                  <div id="report-card-session" class="font-semibold text-text">2026/2027</div>
+                  <div id="report-card-term">First Term</div>
+                </div>
+              </div>
+            </header>
+
+            <div class="space-y-5 p-4 sm:p-6 print:p-0">
+              <section class="rounded-card border border-border bg-bg p-4 print:bg-white">
+                <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+                  <div>
+                    <p class="text-xs uppercase tracking-wide text-muted">Student name</p>
+                    <p id="report-card-student-name" class="mt-1 text-base font-semibold text-text">—</p>
+                  </div>
+                  <div>
+                    <p class="text-xs uppercase tracking-wide text-muted">Student ID</p>
+                    <p id="report-card-student-id" class="mt-1 text-base font-semibold text-text">—</p>
+                  </div>
+                  <div>
+                    <p class="text-xs uppercase tracking-wide text-muted">Class</p>
+                    <p id="report-card-class-name" class="mt-1 text-base font-semibold text-text">—</p>
+                  </div>
+                  <div>
+                    <p class="text-xs uppercase tracking-wide text-muted">Class size</p>
+                    <p id="report-card-class-size" class="mt-1 text-base font-semibold text-text">—</p>
+                  </div>
+                  <div>
+                    <p class="text-xs uppercase tracking-wide text-muted">Attendance</p>
+                    <p id="report-card-attendance" class="mt-1 text-base font-semibold text-text">—</p>
+                  </div>
+                </div>
+              </section>
+
+              <div id="report-card-incomplete-warning" class="hidden rounded-card border border-warning/40 bg-warning/10 p-3 text-sm font-medium text-warning"></div>
+
+              <section class="overflow-x-auto rounded-card border border-border bg-card print:overflow-visible">
+                <table class="min-w-full border-collapse text-left print:text-[12px]">
+                  <thead class="bg-bg text-xs font-semibold uppercase tracking-wide text-muted">
+                    <tr>
+                      <th class="px-3 py-3">Subject</th>
+                      <th class="px-3 py-3">CA1</th>
+                      <th class="px-3 py-3">CA2</th>
+                      <th class="px-3 py-3">Exam</th>
+                      <th class="px-3 py-3">Total</th>
+                      <th class="px-3 py-3">Grade</th>
+                      <th class="px-3 py-3">Remark</th>
+                      <th class="px-3 py-3">Class avg</th>
+                      <th class="px-3 py-3">Position</th>
+                      <th class="px-3 py-3">Teacher</th>
+                    </tr>
+                  </thead>
+                  <tbody id="report-card-subject-rows" class="divide-y divide-border"></tbody>
+                </table>
+              </section>
+
+              <section class="grid gap-4 lg:grid-cols-[1.3fr_0.7fr]">
+                <div class="rounded-card border border-border bg-bg p-4 print:bg-white">
+                  <h2 class="mb-3 text-base font-semibold text-text">Summary</h2>
+                  <dl class="grid gap-3 sm:grid-cols-2">
+                    <div>
+                      <dt class="text-xs uppercase tracking-wide text-muted">Total score</dt>
+                      <dd id="report-card-total-score" class="mt-1 text-xl font-bold text-text">—</dd>
+                    </div>
+                    <div>
+                      <dt class="text-xs uppercase tracking-wide text-muted">Average</dt>
+                      <dd id="report-card-average" class="mt-1 text-xl font-bold text-text">—</dd>
+                    </div>
+                    <div id="report-card-position-wrap" class="hidden">
+                      <dt class="text-xs uppercase tracking-wide text-muted">Position in class</dt>
+                      <dd id="report-card-position" class="mt-1 text-xl font-bold text-text">—</dd>
+                    </div>
+                    <div id="report-card-class-average-wrap" class="hidden">
+                      <dt class="text-xs uppercase tracking-wide text-muted">Class average</dt>
+                      <dd id="report-card-class-average" class="mt-1 text-xl font-bold text-text">—</dd>
+                    </div>
+                    <div>
+                      <dt class="text-xs uppercase tracking-wide text-muted">Passed</dt>
+                      <dd id="report-card-passed" class="mt-1 text-xl font-bold text-success">—</dd>
+                    </div>
+                    <div>
+                      <dt class="text-xs uppercase tracking-wide text-muted">Failed</dt>
+                      <dd id="report-card-failed" class="mt-1 text-xl font-bold text-danger">—</dd>
+                    </div>
+                  </dl>
+                </div>
+
+                <div class="rounded-card border border-border bg-bg p-4 print:bg-white">
+                  <h2 class="mb-3 text-base font-semibold text-text">Grading key</h2>
+                  <div class="overflow-x-auto">
+                    <table class="w-full border-collapse text-left text-sm">
+                      <thead class="bg-card text-xs uppercase tracking-wide text-muted">
+                        <tr>
+                          <th class="px-2 py-2">Grade</th>
+                          <th class="px-2 py-2">Range</th>
+                          <th class="px-2 py-2">Remark</th>
+                        </tr>
+                      </thead>
+                      <tbody id="report-card-grading-key" class="divide-y divide-border"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </section>
+
+              <div id="report-card-third-term" class="hidden rounded-card border border-border bg-bg p-4 print:bg-white">
+                <h2 class="mb-3 text-base font-semibold text-text">Third term summary</h2>
+                <div class="overflow-x-auto">
+                  <table class="w-full border-collapse text-left text-sm">
+                    <thead class="bg-card text-xs uppercase tracking-wide text-muted">
+                      <tr>
+                        <th class="px-2 py-2">Term</th>
+                        <th class="px-2 py-2">Average</th>
+                      </tr>
+                    </thead>
+                    <tbody id="report-card-term-averages" class="divide-y divide-border"></tbody>
+                  </table>
+                </div>
+                <div id="report-card-promotion" class="mt-3 text-sm font-medium text-text"></div>
+                <p class="mt-2 text-xs text-muted">The admin makes the final promotion decision.</p>
+              </div>
+
+              <section class="grid gap-4 lg:grid-cols-2">
+                <div class="rounded-card border border-border bg-bg p-4 print:bg-white">
+                  <label class="block text-sm font-semibold text-text">Form teacher's comment</label>
+                  <textarea id="report-card-form-comment" class="mt-2 min-h-[110px] w-full rounded-input border border-border bg-card px-3 py-2 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 print:resize-none print:border-0 print:bg-white"></textarea>
+                </div>
+                <div class="rounded-card border border-border bg-bg p-4 print:bg-white">
+                  <label class="block text-sm font-semibold text-text">Principal's comment</label>
+                  <textarea id="report-card-principal-comment" class="mt-2 min-h-[110px] w-full rounded-input border border-border bg-card px-3 py-2 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 print:resize-none print:border-0 print:bg-white"></textarea>
+                </div>
+              </section>
+
+              <section class="grid gap-4 border-t border-border pt-4 sm:grid-cols-2 print:grid-cols-2">
+                <div>
+                  <p class="text-xs uppercase tracking-wide text-muted">Form teacher</p>
+                  <p id="report-card-form-teacher" class="mt-2 text-base font-semibold text-text">—</p>
+                  <div class="mt-6 border-t border-border pt-3 text-sm text-muted">Signature</div>
+                </div>
+                <div>
+                  <p class="text-xs uppercase tracking-wide text-muted">Principal</p>
+                  <p id="report-card-principal-name" class="mt-2 text-base font-semibold text-text">Dr. A. Obi</p>
+                  <div class="mt-6 border-t border-border pt-3 text-sm text-muted">Signature</div>
+                </div>
+              </section>
+
+              <div class="flex flex-col gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p class="text-xs uppercase tracking-wide text-muted">Date</p>
+                  <p id="report-card-date" class="mt-1 text-sm font-medium text-text">—</p>
+                </div>
+                <div>
+                  <p class="text-xs uppercase tracking-wide text-muted">Next term begins</p>
+                  <p id="report-card-next-term" class="mt-1 text-sm font-medium text-text">—</p>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div id="site-footer" class="print:hidden"></div>
+  </main>
+
+  <script src="../../js/footer.js"></script>
+  <script src="../../js/admin-layout.js"></script>
+  <script src="../../js/results-engine.js"></script>
+  <script src="../../js/results-demo-data.js"></script>
+  <script src="../../js/admin-report-card.js"></script>
+</body>
+</html>

@@ -18,9 +18,13 @@
   const cardSubmit = document.getElementById('exam-card-submit');
   const demoMode = new URLSearchParams(window.location.search).get('demo') === '1';
   const enterScoresLink = document.getElementById('enter-scores');
+  const broadsheetLink = document.getElementById('broadsheet-link');
+  const reportCardsLink = document.getElementById('report-cards-link');
 
-  if (enterScoresLink && demoMode) {
-    enterScoresLink.href = './score-entry.html?demo=1';
+  if (demoMode) {
+    if (enterScoresLink) enterScoresLink.href = './score-entry.html?demo=1';
+    if (broadsheetLink) broadsheetLink.href = './broadsheet.html?demo=1';
+    if (reportCardsLink) reportCardsLink.href = './report-card.html?demo=1';
   }
 
   let exams = [];

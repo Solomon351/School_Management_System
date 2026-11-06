@@ -43,7 +43,7 @@
   function currentPage() {
     const filename = window.location.pathname.split('/').pop() || 'dashboard.html';
     const page = filename.replace(/\.html$/i, '').toLowerCase();
-    return page === 'score-entry' ? 'examinations' : page;
+    return ['score-entry', 'broadsheet', 'report-card'].includes(page) ? 'examinations' : page;
   }
 
   function injectLayout() {

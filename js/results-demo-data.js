@@ -85,7 +85,9 @@
       { id: 'mathematics', name: 'Mathematics' },
       { id: 'english', name: 'English Language' },
       { id: 'basic-science', name: 'Basic Science' },
-      { id: 'physics', name: 'Physics' }
+      { id: 'physics', name: 'Physics' },
+      { id: 'civic-education', name: 'Civic Education' },
+      { id: 'computer-studies', name: 'Computer Studies' }
     ],
     SS1B: [
       { id: 'mathematics', name: 'Mathematics' },
@@ -161,6 +163,47 @@
       'STU-210': { CA1: null, CA2: null, Exam: null }
     }
   };
+
+  const broadsheetTotals = {
+    First: {
+      english: [86, 80, 80, 62, 76, 71, 78, 66, 59, 48],
+      'basic-science': [82, 78, 78, 56, 75, 70, 76, 63, 58, 50],
+      physics: [80, 74, 74, 45, 73, 68, 76, 60, 54, 46],
+      'civic-education': [90, 82, 82, 64, 80, 73, 79, 67, 61, 52],
+      'computer-studies': [88, 80, 80, 58, 77, 70, 78, 65, 57, 49]
+    },
+    Second: {
+      mathematics: [97, 91, 91, 72, 81, 75, 82, 70, 62, 54],
+      english: [88, 82, 82, 68, 77, 73, 79, 66, 60, 51],
+      'basic-science': [84, 79, 79, 64, 76, 71, 78, 65, 57, 49],
+      physics: [82, 76, 76, 47, 75, 69, 77, 62, 55, 45],
+      'civic-education': [91, 84, 84, 70, 82, 76, 81, 69, 63, 54],
+      'computer-studies': [89, 82, 82, 65, 79, 73, 80, 67, 60, 52]
+    },
+    Third: {
+      mathematics: [99, 93, 93, 78, 85, 79, 86, 74, 66, 58],
+      english: [91, 85, 85, 72, 80, 76, 82, 70, 63, 54],
+      'basic-science': [87, 82, 82, 69, 79, 75, 81, 68, 60, 52],
+      physics: [85, 78, 78, 52, 79, 72, 81, 66, 59, 48],
+      'civic-education': [94, 87, 87, 74, 85, 80, 84, 72, 66, 57],
+      'computer-studies': [92, 85, 85, 70, 82, 77, 83, 71, 64, 55]
+    }
+  };
+
+  Object.entries(broadsheetTotals).forEach(([term, subjectsForTerm]) => {
+    Object.entries(subjectsForTerm).forEach(([subjectId, totals]) => {
+      const key = `2026/2027|${term}|JSS2A|${subjectId}`;
+      if (scoreRecords[key]) return;
+
+      scoreRecords[key] = Object.fromEntries(students.JSS2A.map((student, index) => {
+        const total = totals[index];
+        const ca1 = Math.min(15, Math.floor(total / 6));
+        const ca2 = Math.min(15, Math.floor(total / 6));
+        return [student.id, { CA1: ca1, CA2: ca2, Exam: total - ca1 - ca2 }];
+      }));
+    });
+  });
+
   const statuses = {};
   const scoreMetadata = {};
 

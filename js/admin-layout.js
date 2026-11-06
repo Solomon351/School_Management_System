@@ -82,6 +82,8 @@
       'admin-motion-dialog'
     );
     element.style.removeProperty('--admin-motion-delay');
+    const page = filename.replace(/\.html$/i, '').toLowerCase();
+    return page === 'score-entry' ? 'examinations' : page;
   }
 
   function injectLayout() {

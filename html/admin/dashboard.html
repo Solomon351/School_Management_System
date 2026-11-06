@@ -97,16 +97,15 @@
         </section>
 
         <section class="rounded-card border border-border bg-card p-4" aria-labelledby="calendar-heading">
-          <h2 id="calendar-heading" class="mb-3 text-[15px] font-semibold text-text">Calendar – October 2026</h2>
-          <div class="grid grid-cols-7 gap-1 text-center text-xs" aria-label="October 2026 calendar">
-            <span class="py-1 font-semibold text-muted">Su</span><span class="py-1 font-semibold text-muted">Mo</span><span class="py-1 font-semibold text-muted">Tu</span><span class="py-1 font-semibold text-muted">We</span><span class="py-1 font-semibold text-muted">Th</span><span class="py-1 font-semibold text-muted">Fr</span><span class="py-1 font-semibold text-muted">Sa</span>
-            <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
-            <span class="py-1.5">1</span><span class="py-1.5">2</span><span class="py-1.5">3</span>
-            <span class="py-1.5">4</span><span class="py-1.5">5</span><span class="py-1.5">6</span><span class="py-1.5">7</span><span class="py-1.5">8</span><span class="py-1.5">9</span><span class="py-1.5">10</span>
-            <span class="py-1.5">11</span><span class="py-1.5">12</span><span class="rounded-full bg-primary py-1.5 text-white">13</span><span class="py-1.5">14</span><span class="py-1.5">15</span><span class="py-1.5">16</span><span class="py-1.5">17</span>
-            <span class="py-1.5">18</span><span class="py-1.5">19</span><span class="py-1.5">20</span><span class="py-1.5">21</span><span class="py-1.5">22</span><span class="py-1.5">23</span><span class="py-1.5">24</span>
-            <span class="py-1.5">25</span><span class="py-1.5">26</span><span class="py-1.5">27</span><span class="py-1.5">28</span><span class="py-1.5">29</span><span class="py-1.5">30</span><span class="py-1.5">31</span>
+          <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <h2 id="calendar-heading" class="text-[15px] font-semibold text-text">Calendar – <span id="calendar-month-title"></span></h2>
+            <div class="flex items-center gap-1">
+              <button id="calendar-previous" type="button" class="inline-flex h-8 w-8 items-center justify-center rounded-input border border-border bg-card text-sm text-text transition-colors hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" aria-label="Previous month">‹</button>
+              <button id="calendar-next" type="button" class="inline-flex h-8 w-8 items-center justify-center rounded-input border border-border bg-card text-sm text-text transition-colors hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" aria-label="Next month">›</button>
+              <button id="calendar-today" type="button" class="rounded-input px-2 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Today</button>
+            </div>
           </div>
+          <div id="calendar-days" class="grid grid-cols-7 gap-1 text-center text-xs" aria-label="Monthly calendar" aria-live="polite"></div>
         </section>
       </div>
     </section>

@@ -17,6 +17,11 @@
   const cardTotal = document.getElementById('exam-card-total');
   const cardSubmit = document.getElementById('exam-card-submit');
   const demoMode = new URLSearchParams(window.location.search).get('demo') === '1';
+  const enterScoresLink = document.getElementById('enter-scores');
+
+  if (enterScoresLink && demoMode) {
+    enterScoresLink.href = './score-entry.html?demo=1';
+  }
 
   let exams = [];
   let scratchCards = [];

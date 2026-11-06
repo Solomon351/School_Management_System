@@ -53,7 +53,6 @@
     --radius-sm: 0.25rem;
     --radius-md: 0.375rem;
     --radius-lg: 0.5rem;
-    --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --animate-spin: spin 1s linear infinite;
     --blur-3xl: 64px;
     --default-transition-duration: 150ms;
@@ -594,6 +593,9 @@
   .max-w-18 {
     max-width: calc(var(--spacing) * 18);
   }
+  .max-w-36 {
+    max-width: calc(var(--spacing) * 36);
+  }
   .max-w-\[85vw\] {
     max-width: 85vw;
   }
@@ -630,6 +632,12 @@
   .min-w-32 {
     min-width: calc(var(--spacing) * 32);
   }
+  .min-w-36 {
+    min-width: calc(var(--spacing) * 36);
+  }
+  .min-w-48 {
+    min-width: calc(var(--spacing) * 48);
+  }
   .min-w-72 {
     min-width: calc(var(--spacing) * 72);
   }
@@ -659,6 +667,9 @@
   }
   .min-w-\[900px\] {
     min-width: 900px;
+  }
+  .min-w-\[980px\] {
+    min-width: 980px;
   }
   .flex-1 {
     flex: 1;
@@ -990,6 +1001,12 @@
       background-color: color-mix(in oklab, var(--color-emerald-500) 20%, transparent);
     }
   }
+  .bg-muted\/10 {
+    background-color: var(--color-muted);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-muted) 10%, transparent);
+    }
+  }
   .bg-navy {
     background-color: var(--color-navy);
   }
@@ -1205,6 +1222,9 @@
   }
   .text-right {
     text-align: right;
+  }
+  .align-top {
+    vertical-align: top;
   }
   .font-mono {
     font-family: var(--font-mono);

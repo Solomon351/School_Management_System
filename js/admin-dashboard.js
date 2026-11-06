@@ -1,5 +1,73 @@
 (function () {
-  if (new URLSearchParams(window.location.search).get('demo') !== '1') {
+  const demoMode = new URLSearchParams(window.location.search).get('demo') === '1';
+  const calendarTitle = document.getElementById('calendar-month-title');
+  const calendarDays = document.getElementById('calendar-days');
+  const previousMonthButton = document.getElementById('calendar-previous');
+  const nextMonthButton = document.getElementById('calendar-next');
+  const todayButton = document.getElementById('calendar-today');
+  const today = new Date();
+  let visibleMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+  function renderCalendar() {
+    if (!calendarTitle || !calendarDays) return;
+
+    const year = visibleMonth.getFullYear();
+    const month = visibleMonth.getMonth();
+    const monthName = visibleMonth.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+    const firstWeekday = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const weekdays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+    calendarTitle.textContent = monthName;
+    calendarDays.setAttribute('aria-label', `${monthName} calendar`);
+    calendarDays.innerHTML = weekdays.map((day) =>
+      `<span class="py-1 font-semibold text-muted" aria-hidden="true">${day}</span>`
+    ).join('');
+
+    for (let blank = 0; blank < firstWeekday; blank += 1) {
+      const emptyDay = document.createElement('span');
+      emptyDay.setAttribute('aria-hidden', 'true');
+      calendarDays.append(emptyDay);
+    }
+
+    // TEMPORARY: the server will add school events (exams, holidays) here
+
+    for (let day = 1; day <= daysInMonth; day += 1) {
+      const dayCell = document.createElement('span');
+      const isToday = year === today.getFullYear() &&
+        month === today.getMonth() &&
+        day === today.getDate();
+
+      dayCell.className = isToday
+        ? 'relative rounded-full bg-primary py-1.5 text-white'
+        : 'relative py-1.5';
+      dayCell.textContent = String(day);
+      if (isToday) dayCell.setAttribute('aria-current', 'date');
+      calendarDays.append(dayCell);
+    }
+  }
+
+  if (previousMonthButton) {
+    previousMonthButton.addEventListener('click', () => {
+      visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() - 1, 1);
+      renderCalendar();
+    });
+  }
+  if (nextMonthButton) {
+    nextMonthButton.addEventListener('click', () => {
+      visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + 1, 1);
+      renderCalendar();
+    });
+  }
+  if (todayButton) {
+    todayButton.addEventListener('click', () => {
+      visibleMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+      renderCalendar();
+    });
+  }
+  renderCalendar();
+
+  if (!demoMode) {
     return;
   }
 

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Collect Fees – Educanize School Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/output.css">
+</head>
+<body class="flex min-h-screen bg-bg font-sans text-text antialiased transition-colors">
+  <div id="admin-sidebar"></div>
+
+  <main class="flex min-h-screen min-w-0 flex-1 flex-col">
+    <div id="admin-header"></div>
+    <section class="flex-1 px-4 py-5 sm:px-6 lg:px-8">
+      <div class="mx-auto w-full max-w-5xl">
+        <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 class="text-2xl font-bold tracking-tight text-text">Collect Fees</h1>
+            <p class="mt-1 text-sm text-muted">Record a fee payment</p>
+          </div>
+          <a id="back-to-fees" href="./fees.html" class="inline-flex h-10 items-center justify-center rounded-input border border-border bg-card px-4 py-2 text-sm font-semibold text-text transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+            Back to Fees
+          </a>
+        </div>
+
+        <div class="rounded-card border border-border bg-card p-6 shadow-sm transition-colors sm:p-9">
+          <div id="form-message" class="mb-5 hidden rounded-input border px-4 py-3 text-sm" role="status" aria-live="polite"></div>
+          <div id="student-warning" class="mb-5 hidden rounded-input border border-warning/30 bg-warning/10 px-4 py-3 text-sm text-warning">
+            <span id="student-warning-text">This student also owes</span>
+            <a id="student-warning-link" href="./student-fees.html" class="ml-2 font-semibold underline underline-offset-2">View statement</a>
+          </div>
+          <form id="admin-form" novalidate class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label for="session" class="mb-1.5 block text-xs font-semibold text-text">Session <span class="text-danger" aria-hidden="true">*</span></label>
+              <select id="session" name="session" required aria-required="true" aria-describedby="session-error" class="w-full appearance-none rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <option value="2026/2027" selected>2026/2027</option>
+                <option value="2025/2026">2025/2026</option>
+              </select>
+              <p id="session-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div>
+              <label for="term" class="mb-1.5 block text-xs font-semibold text-text">Term <span class="text-danger" aria-hidden="true">*</span></label>
+              <select id="term" name="term" required aria-required="true" aria-describedby="term-error" class="w-full appearance-none rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <option value="First" selected>First</option>
+                <option value="Second">Second</option>
+                <option value="Third">Third</option>
+              </select>
+              <p id="term-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div>
+              <label for="class" class="mb-1.5 block text-xs font-semibold text-text">Class <span class="text-danger" aria-hidden="true">*</span></label>
+              <select id="class" name="class" required aria-required="true" aria-describedby="class-error" class="w-full appearance-none rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <option value="">Select class</option>
+              </select>
+              <p id="class-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div>
+              <label for="student" class="mb-1.5 block text-xs font-semibold text-text">Student <span class="text-danger" aria-hidden="true">*</span></label>
+              <select id="student" name="student" required aria-required="true" aria-describedby="student-error" class="w-full appearance-none rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-60" disabled>
+                <option value="">Select a class first</option>
+              </select>
+              <p id="student-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div id="balance-summary" class="hidden rounded-input border border-border bg-bg p-4 text-sm sm:col-span-2" aria-live="polite">
+              <h2 class="mb-3 font-semibold text-text">Fee balance</h2>
+              <dl class="grid gap-3 sm:grid-cols-3">
+                <div><dt class="text-xs text-muted">Total due</dt><dd id="total-due" class="mt-1 font-semibold text-text"></dd></div>
+                <div><dt class="text-xs text-muted">Paid so far</dt><dd id="paid-so-far" class="mt-1 font-semibold text-text"></dd></div>
+                <div><dt class="text-xs text-muted">Balance</dt><dd id="balance-remaining" class="mt-1 font-semibold text-text"></dd></div>
+              </dl>
+              <p id="no-balance-message" class="hidden mt-3 font-medium text-success">This student has no outstanding balance</p>
+            </div>
+            <div>
+              <label for="paymentType" class="mb-1.5 block text-xs font-semibold text-text">Payment type <span class="text-danger" aria-hidden="true">*</span></label>
+              <select id="paymentType" name="paymentType" required aria-required="true" aria-describedby="paymentType-error" class="w-full appearance-none rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" disabled>
+                <option value="full">Full payment</option>
+                <option value="part">Part payment</option>
+              </select>
+              <p id="paymentType-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div>
+              <label for="amount" class="mb-1.5 block text-xs font-semibold text-text">Amount (₦) <span class="text-danger" aria-hidden="true">*</span></label>
+              <input id="amount" name="amount" type="number" min="1" step="0.01" required aria-required="true" aria-describedby="amount-error" class="w-full rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-muted/60 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" disabled>
+              <p id="amount-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div>
+              <label for="paymentMethod" class="mb-1.5 block text-xs font-semibold text-text">Payment method <span class="text-danger" aria-hidden="true">*</span></label>
+              <select id="paymentMethod" name="paymentMethod" required aria-required="true" aria-describedby="paymentMethod-error" class="w-full appearance-none rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <option value="">Select method</option>
+                <option value="cash">Cash</option>
+                <option value="transfer">Bank Transfer</option>
+                <option value="pos">POS</option>
+              </select>
+              <p id="paymentMethod-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div>
+              <label for="paymentDate" class="mb-1.5 block text-xs font-semibold text-text">Payment date <span class="text-danger" aria-hidden="true">*</span></label>
+              <input id="paymentDate" name="paymentDate" type="date" required aria-required="true" aria-describedby="paymentDate-error" class="w-full rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+              <p id="paymentDate-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="note" class="mb-1.5 block text-xs font-semibold text-text">Note <span class="text-muted font-normal">(optional)</span></label>
+              <textarea id="note" name="note" rows="3" aria-describedby="note-error" class="w-full rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-muted/60 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"></textarea>
+              <p id="note-error" class="mt-1.5 hidden text-xs font-medium text-danger" role="alert"></p>
+            </div>
+            <div class="flex flex-wrap items-center justify-end gap-3 border-t border-border pt-5" style="grid-column: 1 / -1;">
+              <a id="cancel-link" href="./fees.html" class="inline-flex min-h-10 items-center justify-center rounded-input px-4 py-2 text-sm font-semibold text-muted transition-colors hover:bg-bg hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Cancel</a>
+              <button type="submit" class="inline-flex h-10 items-center justify-center rounded-input bg-primary px-5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-wait disabled:opacity-75">
+                Save Payment
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <div id="site-footer"></div>
+  </main>
+
+  <script src="../../js/footer.js"></script>
+  <script src="../../js/admin-layout.js"></script>
+  <script src="../../js/fees-demo-data.js"></script>
+  <script src="../../js/admin-add-payment.js"></script>
+</body>
+</html>

@@ -63,6 +63,8 @@
 
   function currentPage() {
     const filename = window.location.pathname.split('/').pop() || 'dashboard.html';
+    const page = filename.replace(/\.html$/i, '').toLowerCase();
+    return page === 'grading-settings' ? 'settings' : page;
     const pageName = filename.replace(/\.html$/i, '').toLowerCase();
 
     if (pageName === 'add-payment' || pageName === 'payment-details') {

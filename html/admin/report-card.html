@@ -23,20 +23,39 @@
             <p class="mt-1 text-sm text-muted">Printable student result sheet</p>
           </div>
           <div class="flex flex-wrap items-center gap-2">
-            <button id="report-card-print" type="button" class="inline-flex h-10 items-center justify-center rounded-input bg-primary px-4 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+            <button id="report-card-print" type="button" class="inline-flex h-10 items-center justify-center rounded-input bg-primary px-4 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary print:hidden">
               Print report card
             </button>
-            <button id="report-card-prev" type="button" class="inline-flex h-10 items-center justify-center rounded-input border border-border bg-card px-4 text-sm font-semibold text-text transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+            <button id="report-card-prev" type="button" class="inline-flex h-10 items-center justify-center rounded-input border border-border bg-card px-4 text-sm font-semibold text-text transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary print:hidden">
               Previous student
             </button>
-            <button id="report-card-next" type="button" class="inline-flex h-10 items-center justify-center rounded-input border border-border bg-card px-4 text-sm font-semibold text-text transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+            <button id="report-card-next" type="button" class="inline-flex h-10 items-center justify-center rounded-input border border-border bg-card px-4 text-sm font-semibold text-text transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary print:hidden">
               Next student
             </button>
           </div>
         </div>
 
+        <div id="report-card-selectors" class="mb-5 hidden grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 print:hidden">
+          <div>
+            <label for="report-card-session-select" class="mb-1.5 block text-xs font-semibold text-text">Session</label>
+            <select id="report-card-session-select" class="w-full appearance-none rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"></select>
+          </div>
+          <div>
+            <label for="report-card-term-select" class="mb-1.5 block text-xs font-semibold text-text">Term</label>
+            <select id="report-card-term-select" class="w-full appearance-none rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"></select>
+          </div>
+          <div>
+            <label for="report-card-class-select" class="mb-1.5 block text-xs font-semibold text-text">Class</label>
+            <select id="report-card-class-select" class="w-full appearance-none rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"></select>
+          </div>
+          <div>
+            <label for="report-card-student-select" class="mb-1.5 block text-xs font-semibold text-text">Student</label>
+            <select id="report-card-student-select" class="w-full appearance-none rounded-input border border-border bg-bg px-3.5 py-2.5 text-sm text-text transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"></select>
+          </div>
+        </div>
+
         <div id="report-card-empty" class="hidden rounded-card border border-border bg-card p-6 text-sm text-muted shadow-sm" role="status" aria-live="polite">
-          No student result is available. Add ?demo=1 and a student id to view a sample report card.
+          No student result is available. Add ?demo=1 to view a sample report card.
         </div>
 
         <div id="report-card-content" class="hidden anim-fade-up">
@@ -175,11 +194,13 @@
               <section class="grid gap-4 lg:grid-cols-2">
                 <div class="rounded-card border border-border bg-bg p-4 print:bg-white">
                   <label class="block text-sm font-semibold text-text">Form teacher's comment</label>
-                  <textarea id="report-card-form-comment" class="mt-2 min-h-[110px] w-full rounded-input border border-border bg-card px-3 py-2 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 print:resize-none print:border-0 print:bg-white"></textarea>
+                  <textarea id="report-card-form-comment" class="mt-2 min-h-27.5 w-full rounded-input border border-border bg-card px-3 py-2 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 print:hidden"></textarea>
+                  <div id="report-card-form-comment-print" class="hidden whitespace-pre-line text-sm leading-6 text-text print:block"></div>
                 </div>
                 <div class="rounded-card border border-border bg-bg p-4 print:bg-white">
                   <label class="block text-sm font-semibold text-text">Principal's comment</label>
-                  <textarea id="report-card-principal-comment" class="mt-2 min-h-[110px] w-full rounded-input border border-border bg-card px-3 py-2 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 print:resize-none print:border-0 print:bg-white"></textarea>
+                  <textarea id="report-card-principal-comment" class="mt-2 min-h-27.5 w-full rounded-input border border-border bg-card px-3 py-2 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 print:hidden"></textarea>
+                  <div id="report-card-principal-comment-print" class="hidden whitespace-pre-line text-sm leading-6 text-text print:block"></div>
                 </div>
               </section>
 

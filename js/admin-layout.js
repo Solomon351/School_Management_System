@@ -63,14 +63,14 @@
 
   function currentPage() {
     const filename = window.location.pathname.split('/').pop() || 'dashboard.html';
-    const page = filename.replace(/\.html$/i, '').toLowerCase();
-    return page === 'grading-settings' ? 'settings' : page;
     const pageName = filename.replace(/\.html$/i, '').toLowerCase();
 
     if (pageName === 'add-payment' || pageName === 'payment-details') {
       return 'fees';
     }
 
+    if (pageName === 'grading-settings') return 'settings';
+    if (['score-entry', 'broadsheet', 'report-card'].includes(pageName)) return 'examinations';
     return pageName;
   }
 
@@ -84,8 +84,6 @@
       'admin-motion-dialog'
     );
     element.style.removeProperty('--admin-motion-delay');
-    const page = filename.replace(/\.html$/i, '').toLowerCase();
-    return page === 'score-entry' ? 'examinations' : page;
   }
 
   function injectLayout() {

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Broadsheet – Educanize School Management</title>
+  <link rel="stylesheet" href="../../css/output.css">
+</head>
+<body class="flex min-h-screen bg-bg font-sans text-text antialiased transition-colors print:bg-white">
+  <div id="admin-sidebar" class="print:hidden"></div>
+
+  <main class="flex min-h-screen min-w-0 flex-1 flex-col">
+    <div id="admin-header" class="print:hidden"></div>
+    <section class="min-w-0 flex-1 px-4 py-5 sm:px-6 lg:px-8 print:p-0" data-broadsheet-page>
+      <div class="mx-auto w-full max-w-7xl">
+        <div class="mb-5 flex flex-wrap items-center justify-between gap-3 print:hidden">
+          <div>
+            <h1 class="text-2xl font-bold tracking-tight text-text">Broadsheet</h1>
+            <p class="mt-1 text-sm text-muted">Class results for a term</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="broadsheet-print" type="button" class="inline-flex h-10 items-center justify-center rounded-input bg-primary px-4 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+              Print broadsheet
+            </button>
+            <button id="broadsheet-export" type="button" class="inline-flex h-10 items-center justify-center rounded-input border border-border bg-card px-4 text-sm font-semibold text-text transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+              Export CSV
+            </button>
+          </div>
+        </div>
+
+        <div id="broadsheet-empty" class="hidden rounded-card border border-border bg-card p-6 text-sm text-muted shadow-sm" role="status" aria-live="polite">
+          No broadsheet data is available. Add ?demo=1 to view the sample results.
+        </div>
+
+        <div id="broadsheet-content" class="hidden">
+          <section class="mb-4 overflow-hidden rounded-card border border-border bg-card shadow-sm transition-colors print:shadow-none">
+            <div class="flex flex-col gap-3 border-b border-border p-4 sm:flex-row sm:flex-wrap sm:items-end sm:p-5">
+              <label class="flex min-w-0 flex-1 flex-col gap-1 text-xs font-medium text-muted sm:min-w-40">
+                <span>Session</span>
+                <select id="broadsheet-session" class="h-10 w-full rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                  <option value="2026/2027" selected>2026/2027</option>
+                  <option value="2025/2026">2025/2026</option>
+                  <option value="2024/2025">2024/2025</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-1 flex-col gap-1 text-xs font-medium text-muted sm:min-w-40">
+                <span>Term</span>
+                <select id="broadsheet-term" class="h-10 w-full rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                  <option value="First Term" selected>First</option>
+                  <option value="Second Term">Second</option>
+                  <option value="Third Term">Third</option>
+                </select>
+              </label>
+              <label class="flex min-w-0 flex-1 flex-col gap-1 text-xs font-medium text-muted sm:min-w-40">
+                <span>Class</span>
+                <select id="broadsheet-class" class="h-10 w-full rounded-input border border-border bg-bg px-3 text-sm text-text focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"></select>
+              </label>
+            </div>
+            <div class="px-4 py-3 text-xs text-muted sm:px-5">
+              <span id="broadsheet-rules-note">Grading rules in use: —</span>
+            </div>
+          </section>
+
+          <section class="overflow-hidden rounded-card border border-border bg-card shadow-sm transition-colors print:shadow-none">
+            <div class="max-w-full overflow-x-auto">
+              <table class="w-full min-w-[1200px] border-collapse text-left print:min-w-0">
+                <caption class="sr-only">Class broadsheet</caption>
+                <thead class="bg-bg text-xs font-semibold uppercase tracking-wide text-muted">
+                  <tr id="broadsheet-head"></tr>
+                </thead>
+                <tbody id="broadsheet-body" class="divide-y divide-border"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <div class="mt-4 grid gap-4 lg:grid-cols-3">
+            <div class="rounded-card border border-border bg-card p-4">
+              <h2 class="mb-3 text-[15px] font-semibold text-text">Class stats</h2>
+              <dl class="grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <dt class="text-muted">Class average</dt>
+                  <dd id="class-average" class="mt-1 font-semibold text-text">—</dd>
+                </div>
+                <div>
+                  <dt class="text-muted">Highest average</dt>
+                  <dd id="class-highest" class="mt-1 font-semibold text-text">—</dd>
+                </div>
+                <div>
+                  <dt class="text-muted">Lowest average</dt>
+                  <dd id="class-lowest" class="mt-1 font-semibold text-text">—</dd>
+                </div>
+                <div>
+                  <dt class="text-muted">Students</dt>
+                  <dd id="class-count" class="mt-1 font-semibold text-text">—</dd>
+                </div>
+                <div class="col-span-2">
+                  <dt class="text-muted">Passed all subjects</dt>
+                  <dd id="class-passed-all" class="mt-1 font-semibold text-text">—</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div class="rounded-card border border-border bg-card p-4 lg:col-span-2">
+              <h2 class="mb-3 text-[15px] font-semibold text-text">Subject averages</h2>
+              <div class="overflow-x-auto">
+                <table class="w-full border-collapse text-left">
+                  <thead class="bg-bg text-xs font-semibold uppercase tracking-wide text-muted">
+                    <tr>
+                      <th class="px-3 py-2">Subject</th>
+                      <th class="px-3 py-2 text-right">Average</th>
+                    </tr>
+                  </thead>
+                  <tbody id="subject-averages" class="divide-y divide-border"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 rounded-card border border-border bg-card p-4 text-sm text-text">
+            <span class="font-semibold text-muted">Form teacher:</span>
+            <span id="form-teacher-name">—</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div id="site-footer" class="print:hidden"></div>
+  </main>
+
+  <script src="../../js/footer.js"></script>
+  <script src="../../js/admin-layout.js"></script>
+  <script src="../../js/results-engine.js"></script>
+  <script src="../../js/results-demo-data.js"></script>
+  <script src="../../js/admin-broadsheet.js"></script>
+</body>
+</html>

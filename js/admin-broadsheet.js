@@ -232,9 +232,9 @@
       if (!studentRow) return;
 
       const url = new URL('./report-card.html', window.location.href);
-      url.searchParams.set('studentId', studentRow.dataset.studentId);
+      url.searchParams.set('student', studentRow.dataset.studentId);
       url.searchParams.set('session', sessionSelect.value);
-      url.searchParams.set('term', termSelect.value);
+      url.searchParams.set('term', termSelect.value.replace(/\s+Term$/i, ''));
       url.searchParams.set('demo', '1');
       window.location.href = url.href;
     });

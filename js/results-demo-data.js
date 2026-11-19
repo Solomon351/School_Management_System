@@ -204,6 +204,30 @@
     });
   });
 
+  delete scoreRecords['2026/2027|First|JSS2A|basic-science']['STU-204'];
+
+  const schoolProfile = {
+    name: 'Educanize Academy',
+    principalName: 'Dr. A. Obi',
+    nextTermDate: 'Monday, 6 January 2027',
+    attendance: {
+      'STU-201': { present: 83, schoolOpened: 92 },
+      'STU-202': { present: 81, schoolOpened: 92 },
+      'STU-203': { present: 85, schoolOpened: 92 },
+      'STU-204': { present: 70, schoolOpened: 92 },
+      'STU-205': { present: 88, schoolOpened: 92 },
+      'STU-206': { present: 77, schoolOpened: 92 },
+      'STU-207': { present: 82, schoolOpened: 92 },
+      'STU-208': { present: 80, schoolOpened: 92 },
+      'STU-209': { present: 76, schoolOpened: 92 },
+      'STU-210': { present: 74, schoolOpened: 92 }
+    },
+    comments: {
+      formTeacher: 'Aisha is making steady progress and responds well to guidance in class. Continue to focus on accuracy and revision to strengthen confidence in examinations.',
+      principal: 'Your child has shown good effort this term. We encourage consistent revision and a positive attitude to learning for even better results next term.'
+    }
+  };
+
   const statuses = {};
   const scoreMetadata = {};
 
@@ -224,6 +248,12 @@
     students,
     teachers,
     scoreRecords,
+    schoolProfile,
+    schoolName: schoolProfile.name,
+    principalName: schoolProfile.principalName,
+    nextTermDate: schoolProfile.nextTermDate,
+    attendance: schoolProfile.attendance,
+    comments: schoolProfile.comments,
     statuses,
     scoreMetadata,
     getSettings(level) {

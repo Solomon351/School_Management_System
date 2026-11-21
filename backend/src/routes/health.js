@@ -5,7 +5,10 @@ const router = express.Router();
 
 router.get('/health', (req, res) => {
   const database = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
-  res.json({ status: 'ok', database });
+  res.json({
+    success: true,
+    data: { status: 'ok', database }
+  });
 });
 
 module.exports = router;
